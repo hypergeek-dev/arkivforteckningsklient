@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ihp
+
+management:
+  security:
+    enabled: false
+
+---
+
+spring:
+  profiles: test
+  cloud:
+    config:
+      enabled: false

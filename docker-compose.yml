@@ -1,0 +1,84 @@
+services:
+  # Databas-tjänst
+  db:
+    image: postgres:16.9 # Använder en specifik, stabil version av PostgreSQL
+    restart: always
+    container_name: min-postgres
+    environment:
+      POSTGRES_USER: dittanvändarnamn
+      POSTGRES_PASSWORD: dittlösenord
+      POSTGRES_DB: ihp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persisterar data
+      - ./databas:/docker-entrypoint-initdb.d # Kör SQL-skript vid första start
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      # These set the initial login credentials for the pgAdmin UI
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: supersecretpassword
+      # Optional: Auto-connect the defined server on startup
+      PGADMIN_AUTO_CREATE_APPLY_FIXES: "true"
+      PGADMIN_SETUP_SRV_PWD: my_password # Use the same DB password for the saved connection
+    ports:
+      - "8082:80" # Access pgAdmin UI at http://localhost:8081
+    volumes:
+      # Persist pgAdmin configuration and databases list
+      - pgadmin_data:/var/lib/pgadmin
+    configs:
+      - source: pgadmin-servers
+        target: /pgadmin4/servers.json
+    depends_on:
+      - db 
+  # Backend-tjänst (Spring Boot)
+  backend:
+    build:
+      context: ./backend # Sökväg till din backend-katalog
+      dockerfile: Dockerfile # Namnet på din Dockerfile i backend
+    container_name: ihp-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/ihp # Använd tjänstens namn `db` för att ansluta
+      SPRING_DATASOURCE_USERNAME: dittanvändarnamn
+      SPRING_DATASOURCE_PASSWORD: dittlösenord
+    depends_on:
+      - db # Säkerställer att databasen startas först
+
+  # Frontend-tjänst (React/TypeScript)
+  frontend:
+    build:
+      context: ./frontend # Sökväg till din frontend-katalog
+      dockerfile: Dockerfile # Namnet på din Dockerfile i frontend
+    container_name: ihp-frontend
+    ports:
+      - "8081:8081"
+    depends_on:
+      - backend # Startar efter backend-tjänsten
+    # Om din frontend måste nå backend, konfigurera detta i koden.
+    # Exempelvis i en miljövariabel i din `Dockerfile` eller med en proxy.
+
+volumes:
+  postgres_data: # Namngiven volym för databasen
+  pgadmin_data:
+
+
+configs:
+  pgadmin-servers:
+    content: |
+      {
+        "Servers": {
+          "1": {
+            "Name": "ihp",
+            "Group": "Servers",
+            "Host": "db",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "dittanvändarnamn",
+            "SavePassword": true
+          }
+        }
+      }

@@ -1,0 +1,16 @@
+.scannerwork
+reports
+target
+.vscode
+.idea
+build
+node_modules
+dist
+bin
+.project
+.factorypath
+.settings
+.tool-versions
+
+# IDEA filer
+.idea/

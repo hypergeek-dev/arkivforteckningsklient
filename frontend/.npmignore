@@ -1,0 +1,12 @@
+.scannerwork
+config
+target
+.vscode
+.idea
+build
+node_modules
+node
+.classpath
+.project
+.factorypath
+.settings

@@ -1,0 +1,10 @@
+.clickableDiv {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+}
+
+.clickableDiv:hover {
+  cursor: pointer;
+}

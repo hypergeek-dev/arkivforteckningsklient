@@ -1,0 +1,26 @@
+import { ClassificationStructureTypeNodeDto } from 'Models/index';
+
+export const csnodeType: ClassificationStructureTypeNodeDto = {
+  id: '5522',
+  name: 'Migrationsverkets klassificeringsstruktur 2024',
+  path: '/4e3360e6-4bbe-4532-aac6-fff84bff6004',
+  stop: undefined,
+  uuid: '4e3360e6-4bbe-4532-aac6-fff84bff6004',
+  start: '2024-01-01T12:00:00',
+  remark: 'RAFS 2019:2',
+  status: 'godkand',
+  revised: '',
+  updated: '2024-10-04T14:07:00',
+  authName: 'Migrationsverket',
+  nodeName: 'csnode',
+  createdAt: '2024-02-09T06:53:20',
+  createdBy: 'NRKMPN',
+  csVersion: 1,
+  localPath: '0',
+  updatedBy: 'NRKMPN',
+  replacesId: undefined,
+  instruction: 'I/002/2024',
+  partialPath: undefined,
+  authDecision: 'I/006/2023.\nDUA/163/2023.',
+  decisionDate: '2024-10-04T14:07:00',
+};

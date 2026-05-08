@@ -1,0 +1,28 @@
+import { ProcessGroupTypeNodeDto } from 'Models/index';
+
+export const pgtype: ProcessGroupTypeNodeDto = {
+  id: '5735',
+  name: 'Kommunicera externt',
+  path: '/4e3360e6-4bbe-4532-aac6-fff84bff6004/4/4.2',
+  stop: undefined,
+  uuid: '0cc63723-514e-4266-8e7a-091807c9d031',
+  start: '2024-01-01T12:00:00',
+  remark: '',
+  status: 'faststalld',
+  contact: undefined,
+  updated: '2024-02-23T11:48:03',
+  nodeName: 'pgnode',
+  parentId: '5731',
+  createdAt: '2024-02-09T06:53:23',
+  createdBy: 'NRKMPN',
+  localPath: '4.2',
+  relations: [],
+  updatedBy: 'NRKMPN',
+  lawsection: undefined,
+  replacesId: undefined,
+  partialPath: 2,
+  decisionDate: undefined,
+  parentStatus: undefined,
+  informationResponsible: 'Marcus Toremar',
+  relationStructuralunit: undefined,
+};

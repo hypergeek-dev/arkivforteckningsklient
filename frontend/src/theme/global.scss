@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  height: 4rem;
+
+  .button-group {
+    margin: auto 0;
+    > button {
+      margin-right: 0.5rem;
+    }
+  }
+}

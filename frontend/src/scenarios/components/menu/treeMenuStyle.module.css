@@ -1,0 +1,24 @@
+.container {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  z-index: 1;
+  margin-top: 0rem;
+  border-radius: 0.375rem;
+}
+
+.menuContent {
+  position: relative;
+  z-index: 1;
+  padding: 0.25rem 0;
+}
+
+.darkmode:hover {
+  background-color: #353535 !important;
+}
+
+.lightmode:hover {
+  background-color: white !important;
+}

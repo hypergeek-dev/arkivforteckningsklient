@@ -1,0 +1,15 @@
+.contentWrapper {
+  margin: 1rem 8px 0 8px;
+  position: relative;
+  height: 295px;
+  width: 100%;
+}
+
+.buttonWrapper {
+  position: absolute;
+  width: 100%;
+  bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  padding-top: 2;
+}

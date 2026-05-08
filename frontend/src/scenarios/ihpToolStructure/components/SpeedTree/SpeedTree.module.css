@@ -1,0 +1,56 @@
+#root {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.list {
+  border: 1px solid #d9dddd;
+}
+
+.treeItemOpen,
+.treeItemClosed {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.treeBranch::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  margin-top: 1px;
+  margin-left: 23px;
+  border-top: 6px solid rgba(0, 0, 0, 0.7);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  opacity: 0.7;
+  position: absolute;
+  top: 0;
+  left: -36px;
+  animation-duration: 0.3s;
+  transition: border 0.3s;
+  transform: translate(0, 0);
+}
+
+.treeItemClosed::after {
+  border-left: 6px solid rgba(0, 0, 0, 0.7);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 0;
+  animation-duration: 0.3s;
+  transform: translate(2px, -2px);
+  transition: border 0.3s;
+}
+
+.itemBackground {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.itemBackground:hover {
+  background-color: rgb(124, 124, 124);
+  cursor: pointer;
+}

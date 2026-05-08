@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "isolatedModules": true,
+    "target": "es6",
+    "jsx": "react",
+    /* Modules */
+    "module": "esnext" /* Specify what module code is generated. */,
+    // "rootDir": "./",                                  /* Specify the root folder within your source files. */
+    "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
+    "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
+    "paths": {
+      "Store/*": ["src/store/*"],
+      "Services/*": ["src/services/*"],
+      "Components/*": ["src/components/*"],
+      "Common/*": ["src/common/*"],
+      "Config/*": ["src/config/*"],
+      "Models/*": ["src/models/*"],
+      "Scenarios/*": ["src/scenarios/*"]
+    } /* Specify a set of entries that re-map imports to additional lookup locations. */,
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    /* Type Checking */
+    "strict": true /* Enable all strict type-checking options. */,
+    "noUnusedLocals": true /* Enable error reporting when a local variables aren't read. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "resolveJsonModule": true
+  },
+  "compileOnSave": true,
+  "include": ["src", ".eslint.config.mjs", "jest.config.ts"],
+  "exclude": ["node_modules", "build", "public"]
+}

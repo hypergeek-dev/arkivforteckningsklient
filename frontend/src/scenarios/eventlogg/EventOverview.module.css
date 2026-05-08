@@ -1,0 +1,16 @@
+.item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 1250px) {
+  .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .item > * {
+    margin-top: 10px;
+  }
+}

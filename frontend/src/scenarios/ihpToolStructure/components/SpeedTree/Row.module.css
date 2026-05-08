@@ -1,0 +1,116 @@
+.root {
+  position: relative;
+  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto auto 1fr;
+  height: 'auto';
+  padding-inline-end: 8px;
+}
+
+.root.isSelected {
+  color: #1967d2;
+}
+
+.expandIconWrapper {
+  align-items: center;
+  font-size: 0;
+  cursor: pointer;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+  transition: transform linear 0.1s;
+  transform: rotate(0deg);
+}
+
+.expandIconWrapper.isOpen {
+  transform: rotate(90deg);
+}
+
+.labelGridItem {
+  padding-inline-start: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.hoverLight :hover {
+  background-color: rgb(219, 219, 219);
+  cursor: pointer;
+}
+.hoverDark :hover {
+  background-color: #83afc9;
+  cursor: pointer;
+}
+
+.menuOpen {
+  background-color: #83afc9;
+}
+
+.dragOver {
+  position: absolute;
+  top: 6px;
+  left: 26ch;
+  padding: 2px;
+  display: none;
+  text-transform: capitalize;
+}
+.dragOver.forbidden {
+  background-color: rgb(255, 0, 0);
+  color: rgb(248, 248, 248);
+}
+
+.dragOver.ok {
+  background-color: rgb(12, 96, 3);
+  color: rgb(248, 248, 248);
+  display: inline-block;
+}
+
+.treeItemOpen,
+.treeItemClosed {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.treeBranch::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  margin-top: 1px;
+  margin-left: 23px;
+  border-top: 6px solid rgba(0, 0, 0, 0.7);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  opacity: 0.7;
+  position: absolute;
+  top: 0;
+  left: -36px;
+  animation-duration: 0.3s;
+  transition: border 0.3s;
+  transform: translate(0, 0);
+}
+
+.treeItemClosed::after {
+  border-left: 6px solid rgba(0, 0, 0, 0.7);
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 0;
+  animation-duration: 0.3s;
+  transform: translate(2px, -2px);
+  transition: border 0.3s;
+}
+
+.itemBackground {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.itemBackground:hover {
+  background-color: rgb(124, 124, 124);
+  cursor: pointer;
+}

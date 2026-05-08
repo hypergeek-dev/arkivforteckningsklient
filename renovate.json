@@ -1,0 +1,113 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base",
+        ":semanticCommits",
+        "group:monorepos",
+        "group:recommended",
+        "docker:pinDigests"
+    ],
+    "timezone": "Europe/Stockholm",
+    "dependencyDashboard": true,
+    "prHourlyLimit": 0,
+    "prConcurrentLimit": 10,
+    "labels": [
+        "deps"
+    ],
+    "commitMessagePrefix": "chore(deps): ",
+    "rangeStrategy": "replace",
+    "packageRules": [
+        {
+            "description": "Client: npm – automerge patch/minor",
+            "matchManagers": [
+                "npm"
+            ],
+            "matchPaths": [
+                "frontend/**"
+            ],
+            "automerge": true,
+            "platformAutomerge": true,
+            "requiredStatusChecks": null,
+            "matchUpdateTypes": [
+                "patch",
+                "minor"
+            ]
+        },
+        {
+            "description": "Server: Maven – automerge patch (ej Spring/Jakarta/Tomcat)",
+            "matchManagers": [
+                "maven"
+            ],
+            "matchPaths": [
+                "backend/**"
+            ],
+            "excludePackagePatterns": [
+                "^org\\.springframework",
+                "^org\\.springframework\\.boot",
+                "^org\\.springframework\\.cloud",
+                "^jakarta\\.",
+                "^org\\.apache\\.tomcat"
+            ],
+            "automerge": true,
+            "platformAutomerge": true,
+            "requiredStatusChecks": null,
+            "matchUpdateTypes": [
+                "patch"
+            ]
+        },
+        {
+            "description": "Server: Spring/Jakarta/Tomcat – kräver review",
+            "matchManagers": [
+                "maven"
+            ],
+            "matchPaths": [
+                "backend/**"
+            ],
+            "matchPackagePatterns": [
+                "^org\\.springframework",
+                "^org\\.springframework\\.boot",
+                "^org\\.springframework\\.cloud",
+                "^jakarta\\.",
+                "^org\\.apache\\.tomcat"
+            ],
+            "automerge": false
+        },
+        {
+            "description": "Dockerbasbilder i båda projekten",
+            "matchManagers": [
+                "dockerfile"
+            ],
+            "matchPaths": [
+                "backend/**",
+                "frontend/**"
+            ],
+            "matchUpdateTypes": [
+                "patch",
+                "minor"
+            ],
+            "automerge": true,
+            "platformAutomerge": true,
+            "requiredStatusChecks": null
+        },
+        {
+            "description": "GitHub Actions-versioner",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "patch",
+                "minor"
+            ],
+            "automerge": true,
+            "platformAutomerge": true,
+            "requiredStatusChecks": null
+        },
+        {
+            "description": "Major uppdateringar – aldrig automerge",
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "automerge": false
+        }
+    ]
+}

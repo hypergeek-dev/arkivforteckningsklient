@@ -1,0 +1,29 @@
+-- FUNCTIONS --
+CREATE OR REPLACE FUNCTION refresh_arende_vy()
+RETURNS TRIGGER AS
+'
+BEGIN
+    REFRESH MATERIALIZED VIEW ihp.arende_m_vy;
+    RETURN NULL;
+END;
+' LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION refresh_handling_vy()
+RETURNS TRIGGER AS
+'
+BEGIN
+    REFRESH MATERIALIZED VIEW ihp.handling_m_vy;
+    RETURN NULL;
+END;
+' LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION refresh_handling_arende_vy()
+RETURNS TRIGGER AS
+'
+BEGIN
+    REFRESH MATERIALIZED VIEW ihp.handling_m_vy;
+    REFRESH MATERIALIZED VIEW ihp.arende_m_vy;
+    RETURN NULL;
+END;
+' LANGUAGE plpgsql;
+-- END FUNCTIONS --

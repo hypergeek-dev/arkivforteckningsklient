@@ -1,0 +1,24 @@
+.scannerwork
+reports
+target
+.vscode
+.idea
+build
+dist
+bin
+.classpath
+.project
+.factorypath
+.settings
+
+# IDEA filer och jRebel
+.idea/
+*.iml
+rebel.xml
+bin
+/spring-boot-ehcache/
+/c/
+
+server.crt
+path-to-java-installationc
+/bin/

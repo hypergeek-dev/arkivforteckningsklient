@@ -1,0 +1,5 @@
+{
+  "src/**/*.tsx": ["prettier --write", "eslint", "npm run lint"],
+  "*.html": ["eslint", "prettier --write"],
+  "*.scss": "prettier --write"
+}
