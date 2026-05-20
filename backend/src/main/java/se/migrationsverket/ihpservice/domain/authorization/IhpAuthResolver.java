@@ -25,9 +25,13 @@ public class IhpAuthResolver implements AuthResolver{
     }
 
     @Override
-
     public Predicate<String> faststallAllowed() {
         return r -> resourceAllowed(r, AuthorizationStatics.ACTION_FASTSTALL);
+    }
+
+    @Override
+    public Predicate<String> importeraAllowed() {
+        return r -> resourceAllowed(r, AuthorizationStatics.ACTION_IMPORTERA);
     }
 
     private boolean resourceAllowed(String resource, String action){

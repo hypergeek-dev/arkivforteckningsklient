@@ -16,6 +16,7 @@ public class AuthorizationService {
             case AuthorizationStatics.ACTION_ADMINISTRERA -> authResolver.administreraAllowed().test(resource);
             case AuthorizationStatics.ACTION_VISA -> authResolver.visaAllowed().test(resource);
             case AuthorizationStatics.ACTION_FASTSTALL -> authResolver.faststallAllowed().test(resource);
+            case AuthorizationStatics.ACTION_IMPORTERA -> authResolver.importeraAllowed().test(resource);
             default -> {
                 log.info(" @@@ Action: {} is not a valid action", action);
                 yield false;
