@@ -21,7 +21,7 @@ Arkivförteckning
 └── Arkivbildare          (organisation, orgNummer, arkivansvarig, verksamhetsperiod)
     └── Arkiv             (arkivIdBeteckning, förvaringsplats, handlingar från/till)
         └── Serie         (seriesignum, serierubrik, förvaringsplats, omfång)
-            └── Underserie
+            └── Underserie (underseriesignum, innehåll, handlingar fr.o.m./t.o.m.)
                 └── Volym (volymnum, format, tillgänglighet)
 ```
 
@@ -46,8 +46,23 @@ Arkivförteckningen följer ett statusflöde: **Utkast → Fastställd → Utgå
 ### Rapport och export
 Högerklicka på en Arkivförteckning → **Rapport** för att granska hela förteckningen med arkivkorrekta prefix per nodnivå. Ladda ned som `FaststalldArkivforteckning.json`.
 
-### Import
+### Import av arkivförteckning
 Högerklicka på en Arkivförteckning → **Importera** för att läsa in en tidigare exporterad JSON-fil. Alla noder återskapas med korrekta föräldra–barn-relationer. Kräver rollen ARKIVANSVARIG eller ARKIVARIE.
+
+### Visual Arkiv ETL-pipeline
+Migrera data från ett befintligt Visual Arkiv-system i fyra steg via REST-API:
+
+| Steg | Endpoint | Beskrivning |
+|---|---|---|
+| 1 | `POST /inspect` | Inspektera källschema — tabeller och kolumner |
+| 2 | `POST /prepare` | Extrahera och transformera utan att skriva; returnerar dry-run-rapport + `confirmationToken` |
+| 3 | `POST /execute?confirmationToken=` | Verklig import; kräver token från steg 2 |
+| 4 | `GET /report/{batchId}` | Hämta rapport för valfri tidigare import |
+
+Aktiveras med `visual.arkiv.datasource.enabled=true`. Varje import är **idempotent** — om samma rad importeras igen räknas den som duplikat och skippas.
+
+#### Importprovenans
+Alla importerade noder märks med `legacy_id`, `legacy_source_system`, `legacy_table` och `imported_at`. Dessa visas som ett infällbart **Importmetadata**-kort i nodformuläret.
 
 ### Händelselogg
 Spåra alla ändringar i förteckningen med tidsstämpel och användare.
@@ -62,7 +77,7 @@ Spåra alla ändringar i förteckningen med tidsstämpel och användare.
 | ARKIVARIE | administrera, visa, importera |
 | LASARE | visa |
 
-I lokal/utvecklingsläge tillåts alla åtgärder utan IAM (mock-läge).
+I lokal/utvecklingsläge (`environment=local`) tillåts alla åtgärder utan IAM (mock-läge).
 
 ---
 
@@ -132,6 +147,18 @@ docker compose up -d --no-deps backend frontend
 
 ---
 
+## Databas­migrationer (Flyway V1–V5)
+
+| Version | Innehåll |
+|---|---|
+| V1 | Bastabeller: csnode, oanode, pgnode, processnode, issuenode, documentnode |
+| V2 | Arkivredovisningsfält: seriesignum, underseriesignum, innehall, handlingar_fran/till |
+| V3 | Autentisering: ihp_users, ihp_authorities med standardanvändare admin/changeme |
+| V4 | Importprovenans: legacy_id, legacy_source_system, legacy_table, legacy_parent_id, imported_at, import_batch_id + partiella unika index |
+| V5 | Importbatch-tabell: import_batch med confirmation_token för ETL-pipeline |
+
+---
+
 ## Byggt med
 
 ![Spring Boot](https://img.shields.io/static/v1?label=Spring%20Boot&message=3.5&color=informational&logo=springboot)
@@ -143,7 +170,9 @@ docker compose up -d --no-deps backend frontend
 
 Backend: Java 17, Spring Boot 3.5, Spring Data JPA, Hibernate, Lombok.  
 Frontend: React 18, TypeScript, Redux Toolkit + Redux-Saga, MUI, Webpack.  
-Databas: PostgreSQL med Flyway-hanterade versionsmigrationer (V1–V5).
+Databas: PostgreSQL med Flyway-hanterade versionsmigrationer (V1–V5).  
+Säkerhet: JDBC-baserad Spring Security med rollmodell (ARKIVANSVARIG / ARKIVARIE / LASARE), cookie-baserad CSRF-skydd.  
+Tester: Testcontainers integration tests (Flyway-migrationer, importidempotens, rollbehörigheter).
 
 ---
 
@@ -151,6 +180,6 @@ Databas: PostgreSQL med Flyway-hanterade versionsmigrationer (V1–V5).
 
 Detta projekt är en fork av [migrationsverket/IHPv](https://github.com/migrationsverket/IHPv), publicerat under **CC0 1.0 Universal** (ingen upphovsrätt förbehålls).
 
-Förändringar i denna fork: terminologiomskrivning till arkivredovisning, arkivspecifika metadatafält, seriesignum-visning, RA-FS-stöd i regelbank, rapport- och importfunktion, Flyway-versionsmigrationer (V1–V5), JDBC-baserad Spring Security med rollmodell, Visual Arkiv ETL-pipeline (inspect/prepare/execute/report).
+Förändringar i denna fork: terminologiomskrivning till arkivredovisning, arkivspecifika metadatafält (V2), seriesignum-visning, RA-FS-stöd i regelbank, rapport- och importfunktion, Flyway-versionsmigrationer (V1–V5), JDBC-baserad Spring Security med rollmodell (V3), importprovenanskolumner och partiella unika index (V4), Visual Arkiv ETL-pipeline med idempotent batchimport (V5), importmetadatakort i alla nodformulär.
 
 Se [LICENSE.txt](LICENSE.txt) för fullständig licenstext.
