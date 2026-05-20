@@ -135,6 +135,11 @@ const resolve = async <T>(options: ApiRequestOptions, resolver?: T | Resolver<T>
     return resolver;
 };
 
+const getCsrfToken = (): string | undefined => {
+    const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : undefined;
+};
+
 const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions): Promise<Headers> => {
     const token = await resolve(options, config.TOKEN);
     const username = await resolve(options, config.USERNAME);
@@ -170,6 +175,13 @@ const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions): Pr
             headers['Content-Type'] = 'text/plain';
         } else if (!isFormData(options.body)) {
             headers['Content-Type'] = 'application/json';
+        }
+    }
+
+    if (!['GET', 'HEAD', 'OPTIONS'].includes(options.method)) {
+        const csrf = getCsrfToken();
+        if (csrf) {
+            headers['X-XSRF-TOKEN'] = csrf;
         }
     }
 
