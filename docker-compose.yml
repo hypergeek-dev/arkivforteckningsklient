@@ -1,68 +1,73 @@
 services:
   # Databas-tjänst
   db:
-    image: postgres:16.9 # Använder en specifik, stabil version av PostgreSQL
+    image: postgres:16.9
     restart: always
     container_name: min-postgres
     environment:
-      POSTGRES_USER: dittanvändarnamn
-      POSTGRES_PASSWORD: dittlösenord
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ihp
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Persisterar data
-      - ./databas:/docker-entrypoint-initdb.d # Kör SQL-skript vid första start
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ihp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:8.14
     restart: always
     environment:
-      # These set the initial login credentials for the pgAdmin UI
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: supersecretpassword
-      # Optional: Auto-connect the defined server on startup
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
       PGADMIN_AUTO_CREATE_APPLY_FIXES: "true"
-      PGADMIN_SETUP_SRV_PWD: my_password # Use the same DB password for the saved connection
     ports:
-      - "8082:80" # Access pgAdmin UI at http://localhost:8081
+      - "127.0.0.1:8082:80"
     volumes:
-      # Persist pgAdmin configuration and databases list
       - pgadmin_data:/var/lib/pgadmin
     configs:
       - source: pgadmin-servers
         target: /pgadmin4/servers.json
     depends_on:
-      - db 
+      db:
+        condition: service_healthy
+
   # Backend-tjänst (Spring Boot)
   backend:
     build:
-      context: ./backend # Sökväg till din backend-katalog
-      dockerfile: Dockerfile # Namnet på din Dockerfile i backend
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: ihp-backend
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_JDBC_URL: jdbc:postgresql://db:5432/ihp # Använd tjänstens namn `db` för att ansluta
-      SPRING_DATASOURCE_USERNAME: dittanvändarnamn
-      SPRING_DATASOURCE_PASSWORD: dittlösenord
+      SPRING_DATASOURCE_JDBC_URL: jdbc:postgresql://db:5432/ihp
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      # IMPORTANT: Must be "production" for all non-local deployments.
+      # Setting this to "local" enables mock IAM — all actions are permitted without authentication.
+      ENVIRONMENT: ${ENVIRONMENT:-production}
     depends_on:
-      - db # Säkerställer att databasen startas först
+      db:
+        condition: service_healthy
 
   # Frontend-tjänst (React/TypeScript)
   frontend:
     build:
-      context: ./frontend # Sökväg till din frontend-katalog
-      dockerfile: Dockerfile # Namnet på din Dockerfile i frontend
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: ihp-frontend
     ports:
       - "8081:8081"
     depends_on:
-      - backend # Startar efter backend-tjänsten
-    # Om din frontend måste nå backend, konfigurera detta i koden.
-    # Exempelvis i en miljövariabel i din `Dockerfile` eller med en proxy.
+      - backend
 
 volumes:
-  postgres_data: # Namngiven volym för databasen
+  postgres_data:
   pgadmin_data:
 
 
@@ -77,7 +82,7 @@ configs:
             "Host": "db",
             "Port": 5432,
             "MaintenanceDB": "postgres",
-            "Username": "dittanvändarnamn",
+            "Username": "${DB_USERNAME}",
             "SavePassword": true
           }
         }
