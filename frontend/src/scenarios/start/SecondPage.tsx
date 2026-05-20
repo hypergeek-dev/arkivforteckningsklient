@@ -1,86 +1,70 @@
 import {
   AccountTree,
   AutoDelete,
-  Build,
   FileDownload,
   KeyboardArrowUp,
+  UploadFile,
 } from '@mui/icons-material';
 import { Grid2, IconButton, Typography } from '@mui/material';
 import React from 'react';
-import Information_flow_Team_isolated from '../../img/Information_flow_Team_isolated.png';
 
 const SecondPage: React.FC<{ onclick: () => void }> = ({ onclick }) => {
   return (
     <Grid2 sx={{ width: 600 }} container>
-      <Grid2 size={{ xs: 6 }}>
+      <Grid2 size={{ xs: 12 }}>
         <Typography sx={{ width: '100%', marginBottom: 2 }} variant="h2">
-          Hur används IHP-verktyget?
+          Vad är förteckningsklienten?
         </Typography>
         <Typography sx={{ width: '100%', marginBottom: 2 }} variant="body1">
-          Migrationsverket hanterar sina handlingar enligt gällande regler i
-          informationshanteringsplanen, IHP. Med IHP-verktyget kan
-          Migrationsverket förvalta klassificeringsstrukturen och
-          informationshanteringsplanen digitalt samt omsätta regelverket i
-          informationshanteringsplanen i myndighetens system.
+          Förteckningsklienten är ett webbaserat verktyg för Skånearkiv för att
+          upprätta, förvalta och fastställa arkivförteckningar enligt svensk
+          arkivredovisningsstandard. Verktyget ersätter interimistiskt Visual
+          Arkiv för detta ändamål.
         </Typography>
         <Typography sx={{ width: '100%', marginBottom: 2 }} variant="body1">
-          IHP-verktyget huvudsakliga uppgifter är; tillhandahålla struktur och
-          innehåll för informationsstyrning (exempelvis för att kunna läsas av
-          handläggarstöd), erbjuda insyn och transparens kring Migrationsverkets
-          informationshantering samt garantera att den hanteringen efterlever
-          tillämpliga lagar och förordningar.
+          Arkivförteckningen byggs upp i en hierarki:{' '}
+          <b>Arkivbildare → Arkiv → Serie → Underserie → Volym</b>. Varje
+          nivå har egna metadatafält anpassade för arkivredovisning, såsom
+          seriesignum, förvaringsplats och verksamhetsperiod.
         </Typography>
         <Typography sx={{ width: '100%', marginBottom: 2 }} variant="body1">
-          <b>Värdeflödesteamen</b> kartlägger sina processers informationsflöden
-          och skapar handlingstyper samt föreslår hanteringsregler, direkt i
-          IHP-verktyget.
+          <b>Arkivansvariga</b> upprättar och fastställer arkivförteckningen.{' '}
+          <b>Arkivarier</b> administrerar och importerar. <b>Läsare</b> har
+          läsbehörighet.
         </Typography>
-        <Typography sx={{ width: '100%' }} variant="body1">
-          <b>Verksarkivarierna</b> på Migrationsverket stödjer
-          värdeflödesteamens arbete genom att använda IHP-verktyget för att
-          granska och godkänna informationshanteringsplanen innan fastställande.
-        </Typography>
-      </Grid2>
-      <Grid2 size={{ xs: 6 }}>
-        <img
-          src={Information_flow_Team_isolated}
-          height={400}
-          alt="bild föreställande man som håller i ett kort och under honom en kvinna som sitter framför ett annat kort."
-        />
       </Grid2>
       <Grid2
         size={{ xs: 12 }}
         sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}
       >
-        <Grid2 sx={{ width: 600 }} container>
-          <Grid2 size={{ xs: 1 }}>
-            <Build />
-          </Grid2>
-          <Grid2 size={{ xs: 11 }}>
-            Skapa informationsstyrning för processer och andra värdeflöden
-          </Grid2>
-
+        <Grid2 sx={{ width: 600 }} container rowSpacing={1}>
           <Grid2 size={{ xs: 1 }}>
             <AccountTree />
           </Grid2>
           <Grid2 size={{ xs: 11 }}>
-            Granska, jämföra och fastställa (endast Verksarkivarier) innehåll
-            och struktur
+            Bygg och förvalta arkivförteckningens hierarki med drag-och-släpp
           </Grid2>
 
           <Grid2 size={{ xs: 1 }}>
             <AutoDelete />
           </Grid2>
           <Grid2 size={{ xs: 11 }}>
-            Ställa in villkor för borttagande av handlingar, s.k. Gallringsfrist
-            (endast Verksarkivarier)
+            Koppla gallrings- och bevaranderegler med RA-FS-referens och
+            rättslig grund
           </Grid2>
 
           <Grid2 size={{ xs: 1 }}>
             <FileDownload />
           </Grid2>
           <Grid2 size={{ xs: 11 }}>
-            Visa Informationshanteringsplan och ladda ned rapporter
+            Exportera Fastställd Arkivförteckning som JSON-rapport
+          </Grid2>
+
+          <Grid2 size={{ xs: 1 }}>
+            <UploadFile />
+          </Grid2>
+          <Grid2 size={{ xs: 11 }}>
+            Importera en tidigare exporterad arkivförteckning
           </Grid2>
         </Grid2>
       </Grid2>

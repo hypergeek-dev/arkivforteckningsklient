@@ -34,8 +34,8 @@ import { UserSelectors } from 'Store/index';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import blackLogo from '../../img/Isolated_IHPv_logo_with_text_black.png';
-import whiteLogo from '../../img/Isolated_IHPv_logo_with_text_neg.png';
+import blackLogo from '../../img/skanearkiv_wordmark_dark.svg';
+import whiteLogo from '../../img/skanearkiv_wordmark_light.svg';
 
 const drawerWidth = 240;
 

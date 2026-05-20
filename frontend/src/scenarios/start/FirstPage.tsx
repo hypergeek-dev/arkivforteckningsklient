@@ -10,10 +10,8 @@ import {
 import { selectThemeSelected } from 'Store/ducks/user/selectors';
 import { useAppSelector } from 'Store/hooks';
 import React from 'react';
-import IHPv_logo_with_text_black from '../../img/Isolated_IHPv_logo_with_text_black.png';
-import IHPv_logo_with_text_white from '../../img/Isolated_IHPv_logo_with_text_neg.png';
-import blackLogo from '../../img/blackLogo.png';
-import whiteLogo from '../../img/whiteLogo.png';
+import darkWordmark from '../../img/skanearkiv_wordmark_dark.svg';
+import lightWordmark from '../../img/skanearkiv_wordmark_light.svg';
 
 const FirstPage: React.FC<{ onclick: () => void }> = ({ onclick }) => {
   const themeSelected = useAppSelector(selectThemeSelected);
@@ -23,55 +21,33 @@ const FirstPage: React.FC<{ onclick: () => void }> = ({ onclick }) => {
         <Grid2 container>
           <Grid2
             size={{ xs: 12 }}
-            sx={{ display: 'flex', justifyContent: 'center' }}
+            sx={{ display: 'flex', justifyContent: 'center', paddingTop: 4, paddingBottom: 6 }}
           >
             {themeSelected === 'dark' ? (
               <img
-                src={whiteLogo}
-                height={48}
-                alt="Migrationsverkets logotyp vit"
+                src={lightWordmark}
+                height={80}
+                alt="Skånearkiv förteckningsklient"
               />
             ) : (
               <img
-                src={blackLogo}
-                height={48}
-                alt="Migrationsverkets logotyp svart"
+                src={darkWordmark}
+                height={80}
+                alt="Skånearkiv förteckningsklient"
               />
             )}
           </Grid2>
           <Grid2 size={{ xs: 12 }} sx={{ padding: '20px 0' }}>
             <Divider />
           </Grid2>
-          <Grid2
-            size={{ xs: 12 }}
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              paddingBottom: 10,
-            }}
-          >
-            {themeSelected === 'dark' ? (
-              <img
-                src={IHPv_logo_with_text_white}
-                height={120}
-                alt="IHP logotyp vit"
-              />
-            ) : (
-              <img
-                src={IHPv_logo_with_text_black}
-                height={120}
-                alt="IHP logotyp svart"
-              />
-            )}
-          </Grid2>
           <Grid2 size={{ xs: 12 }}>
             <Typography sx={{ textAlign: 'center' }} variant="h1">
-              Välkommen till IHP-verktyget
+              Välkommen
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12 }}>
             <Typography sx={{ textAlign: 'center' }} variant="h2">
-              Migrationsverkets applikation för informationsstyrning
+              Verktyg för upprättande och förvaltning av arkivförteckningar
             </Typography>
           </Grid2>
           <Grid2 size={{ xs: 12 }} sx={{ padding: '20px 0' }}>
@@ -88,7 +64,7 @@ const FirstPage: React.FC<{ onclick: () => void }> = ({ onclick }) => {
           >
             <IconButton
               size="large"
-              title="Visa mer om IHP..."
+              title="Visa mer om förteckningsklienten"
               aria-label="Läs mer"
               onClick={onclick}
             >
