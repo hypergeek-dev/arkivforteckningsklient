@@ -37,7 +37,10 @@ public class IhpDbConfig {
     ) {
         return builder
                 .dataSource(dataSource)
-                .packages("se.migrationsverket.ihpservice.repository.ihp.entities")
+                .packages(
+                    "se.migrationsverket.ihpservice.repository.ihp.entities",
+                    "se.migrationsverket.ihpservice.domain.visualarkiv"
+                )
                 .persistenceUnit("ihp")
                 .build();
     }
