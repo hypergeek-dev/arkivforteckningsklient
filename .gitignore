@@ -1,0 +1,44 @@
+# Claude Code session data
+.claude/
+
+# VS Code Local History plugin
+.history/
+
+# VS Code workspace settings (user-specific)
+.vscode/
+
+# IntelliJ / IDE project files (beyond the .idea/.gitignore already present)
+*.iml
+out/
+
+# macOS
+.DS_Store
+
+# Java build output
+target/
+*.class
+*.jar
+*.war
+
+# Maven wrapper cache
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / npm
+node_modules/
+npm-debug.log*
+
+# Frontend build output
+frontend/dist/
+frontend/build/
+
+# Environment secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# Docker volumes that may land in repo root
+data/
+pgdata/
+
+# Test coverage reports
+coverage/
