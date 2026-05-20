@@ -2,6 +2,7 @@ import { OperationalAreaTypeNodeDto } from 'Models/index';
 import { StyledDateForm } from 'Scenarios/nodes/components/forms/DateForms';
 import DefaultFormLayout from 'Scenarios/nodes/components/forms/DefaultFormLayout';
 import { StyledInputForm } from 'Scenarios/nodes/components/forms/InputForm';
+import { Stack } from '@mui/material';
 import { selectAuthUser } from 'Store/ducks/user/selectors';
 import { useAppSelector } from 'Store/hooks';
 import React from 'react';
@@ -26,7 +27,7 @@ const EditOperationalAreaNode: React.FC<Props> = ({
       node={data}
       disabled={disabled}
       onChange={onChangeHandler}
-      header={`Benämning verksamhetsområde ${disabled ? '' : '*'}`}
+      header={`Benämning arkivbildare ${disabled ? '' : '*'}`}
     >
       <FormCard
         sx={{
@@ -78,6 +79,54 @@ const EditOperationalAreaNode: React.FC<Props> = ({
           stop={data.stop}
           onChangeHandler={onChangeHandler}
         />
+      </FormCard>
+
+      <FormCard sx={{ width: CARD_WIDTH }}>
+        <Stack spacing={2}>
+          <StyledInputForm
+            name="orgNummer"
+            title="Organisationsnummer"
+            onChangeHandler={onChangeHandler}
+            value={data.orgNummer || ''}
+            disabled={disabled}
+            maxLength={20}
+            validators={[requireMaxLength(20)]}
+          />
+          <StyledInputForm
+            name="arkivansvarig"
+            title="Arkivansvarig"
+            onChangeHandler={onChangeHandler}
+            value={data.arkivansvarig || ''}
+            disabled={disabled}
+            maxLength={100}
+            validators={[requireMaxLength(100)]}
+          />
+          <StyledInputForm
+            name="adress"
+            title="Adress"
+            onChangeHandler={onChangeHandler}
+            value={data.adress || ''}
+            disabled={disabled}
+            maxLength={200}
+            validators={[requireMaxLength(200)]}
+          />
+          <StyledInputForm
+            name="verksamhetsperiodStart"
+            title="Verksamhetsperiod fr.o.m. (ÅÅÅÅ-MM-DD)"
+            onChangeHandler={onChangeHandler}
+            value={data.verksamhetsperiodStart || ''}
+            disabled={disabled}
+            maxLength={10}
+          />
+          <StyledInputForm
+            name="verksamhetsperiodSlut"
+            title="Verksamhetsperiod t.o.m. (ÅÅÅÅ-MM-DD)"
+            onChangeHandler={onChangeHandler}
+            value={data.verksamhetsperiodSlut || ''}
+            disabled={disabled}
+            maxLength={10}
+          />
+        </Stack>
       </FormCard>
     </DefaultFormLayout>
   );

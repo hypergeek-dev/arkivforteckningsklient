@@ -4,6 +4,7 @@ import { DocumentTypeNodeDto } from 'Models/index';
 import BooleanForm from 'Scenarios/nodes/components/forms/BooleanForm';
 import DefaultFormLayout from 'Scenarios/nodes/components/forms/DefaultFormLayout';
 import { StyledInputForm } from 'Scenarios/nodes/components/forms/InputForm';
+import { Stack } from '@mui/material';
 import React from 'react';
 import { StyledDateForm } from '../components/forms/DateForms';
 import FormCard from '../components/forms/FormCard';
@@ -27,7 +28,7 @@ const EditDocumentNode: React.FC<Props> = ({
   <DefaultFormLayout
     node={data}
     disabled={disabled}
-    header={`Benämning handlingstyp  ${disabled ? '' : '*'}`}
+    header={`Benämning volym ${disabled ? '' : '*'}`}
     onChange={onChangeHandler}
   >
     <FormCard sx={{ height: CARD_HEIGHT }} xs={2}>
@@ -104,6 +105,56 @@ const EditDocumentNode: React.FC<Props> = ({
         nodeName={'documentnode'}
         list={data.assignedElements}
       />
+    </FormCard>
+
+    <FormCard xs={2}>
+      <Stack spacing={2}>
+        <StyledInputForm
+          name="volymnum"
+          title="Volymnummer"
+          onChangeHandler={onChangeHandler}
+          value={data.volymnum || ''}
+          disabled={disabled}
+          maxLength={20}
+          validators={[requireMaxLength(20)]}
+        />
+        <StyledInputForm
+          name="forvaringsplats"
+          title="Förvaringsplats"
+          onChangeHandler={onChangeHandler}
+          value={data.forvaringsplats || ''}
+          disabled={disabled}
+          maxLength={300}
+          validators={[requireMaxLength(300)]}
+        />
+        <StyledInputForm
+          name="formatBeskriv"
+          title="Formatbeskrivning"
+          onChangeHandler={onChangeHandler}
+          value={data.formatBeskriv || ''}
+          disabled={disabled}
+          maxLength={200}
+          validators={[requireMaxLength(200)]}
+        />
+        <StyledInputForm
+          name="tillganglighet"
+          title="Tillgänglighet"
+          onChangeHandler={onChangeHandler}
+          value={data.tillganglighet || ''}
+          disabled={disabled}
+          maxLength={200}
+          validators={[requireMaxLength(200)]}
+        />
+        <StyledInputForm
+          name="omfang"
+          title="Omfång"
+          onChangeHandler={onChangeHandler}
+          value={data.omfang || ''}
+          disabled={disabled}
+          maxLength={200}
+          validators={[requireMaxLength(200)]}
+        />
+      </Stack>
     </FormCard>
   </DefaultFormLayout>
 );

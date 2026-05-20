@@ -3,6 +3,7 @@ import { ProcessGroupTypeNodeDto } from 'Models/index';
 import { StyledDateForm } from 'Scenarios/nodes/components/forms/DateForms';
 import DefaultFormLayout from 'Scenarios/nodes/components/forms/DefaultFormLayout';
 import { StyledInputForm } from 'Scenarios/nodes/components/forms/InputForm';
+import { Stack } from '@mui/material';
 import { selectAuthUser } from 'Store/ducks/user/selectors';
 import { useAppSelector } from 'Store/hooks';
 import React from 'react';
@@ -24,7 +25,7 @@ const EditPG: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
       node={data}
       disabled={disabled}
       onChange={onChangeHandler}
-      header={`Benämning processgrupp ${disabled ? '' : '*'}`}
+      header={`Benämning arkiv ${disabled ? '' : '*'}`}
     >
       <FormCard
         sx={{
@@ -85,16 +86,62 @@ const EditPG: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
       >
         <StyledInputForm
           name="remark"
-          title="Anmärkning processgrupp"
+          title="Anmärkning arkiv"
           onChangeHandler={onChangeHandler}
           value={data.remark || ''}
-          /* title="Anmärkning" */
           multiline
           rows={12}
           disabled={disabled}
           maxLength={1000}
           validators={[requireMaxLength(1000)]}
         />
+      </FormCard>
+
+      <FormCard sx={{ width: CARD_WIDTH }}>
+        <Stack spacing={2}>
+          <StyledInputForm
+            name="arkivIdBeteckning"
+            title="Arkiv-ID / Beteckning"
+            onChangeHandler={onChangeHandler}
+            value={data.arkivIdBeteckning || ''}
+            disabled={disabled}
+            maxLength={50}
+            validators={[requireMaxLength(50)]}
+          />
+          <StyledInputForm
+            name="forvaringsplats"
+            title="Förvaringsplats"
+            onChangeHandler={onChangeHandler}
+            value={data.forvaringsplats || ''}
+            disabled={disabled}
+            maxLength={300}
+            validators={[requireMaxLength(300)]}
+          />
+          <StyledInputForm
+            name="handlingarFran"
+            title="Handlingar fr.o.m. (ÅÅÅÅ-MM-DD)"
+            onChangeHandler={onChangeHandler}
+            value={data.handlingarFran || ''}
+            disabled={disabled}
+            maxLength={10}
+          />
+          <StyledInputForm
+            name="handlingarTill"
+            title="Handlingar t.o.m. (ÅÅÅÅ-MM-DD)"
+            onChangeHandler={onChangeHandler}
+            value={data.handlingarTill || ''}
+            disabled={disabled}
+            maxLength={10}
+          />
+          <StyledInputForm
+            name="volymAntal"
+            title="Antal volymer"
+            onChangeHandler={onChangeHandler}
+            value={data.volymAntal !== undefined ? String(data.volymAntal) : ''}
+            disabled={disabled}
+            maxLength={10}
+          />
+        </Stack>
       </FormCard>
     </DefaultFormLayout>
   );
