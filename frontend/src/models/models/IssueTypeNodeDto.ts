@@ -30,4 +30,8 @@ export type IssueTypeNodeDto = {
     relations?: Array<NodeRelationDto>;
     assignedElements?: Array<ElementDto>;
     index: number;
+    underseriesignum?: string;
+    innehall?: string;
+    handlingarFran?: string;
+    handlingarTill?: string;
 };

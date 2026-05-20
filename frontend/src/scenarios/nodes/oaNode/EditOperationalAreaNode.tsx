@@ -7,6 +7,7 @@ import { selectAuthUser } from 'Store/ducks/user/selectors';
 import { useAppSelector } from 'Store/hooks';
 import React from 'react';
 import FormCard from '../components/forms/FormCard';
+import ImportMetadataCard from '../components/ImportMetadataCard';
 import { CARD_HEIGHT, CARD_WIDTH } from '../ksNode/EditKsNode';
 import { requireDateFormat, requireMaxLength, requiredField } from 'Common/validators';
 
@@ -130,6 +131,7 @@ const EditOperationalAreaNode: React.FC<Props> = ({
           />
         </Stack>
       </FormCard>
+      <ImportMetadataCard nodeType="oanode" id={data.id} />
     </DefaultFormLayout>
   );
 };

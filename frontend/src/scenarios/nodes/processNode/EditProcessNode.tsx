@@ -9,6 +9,7 @@ import { selectAuthUser } from 'Store/ducks/user/selectors';
 import { useAppSelector } from 'Store/hooks';
 import React from 'react';
 import FormCard from '../components/forms/FormCard';
+import ImportMetadataCard from '../components/ImportMetadataCard';
 import { CARD_HEIGHT, CARD_WIDTH } from '../ksNode/EditKsNode';
 
 type Props = {
@@ -168,6 +169,7 @@ const EditProcess: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
           validators={[requireMaxLength(5000)]}
         />
       </FormCard>
+      <ImportMetadataCard nodeType="processnode" id={data.id} />
     </DefaultFormLayout>
   );
 };

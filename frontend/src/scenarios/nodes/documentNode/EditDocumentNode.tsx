@@ -13,6 +13,7 @@ import { CARD_HEIGHT } from '../ksNode/EditKsNode';
 import InfoClassCardContent from './InfoClassCardContent';
 import { steps } from '../components/regulationStepper/Steps';
 import EgnaElementCard from '../components/EgnaElementCard';
+import ImportMetadataCard from '../components/ImportMetadataCard';
 
 type Props = {
   data: DocumentTypeNodeDto;
@@ -156,6 +157,7 @@ const EditDocumentNode: React.FC<Props> = ({
         />
       </Stack>
     </FormCard>
+    <ImportMetadataCard nodeType="documentnode" id={data.id} />
   </DefaultFormLayout>
 );
 

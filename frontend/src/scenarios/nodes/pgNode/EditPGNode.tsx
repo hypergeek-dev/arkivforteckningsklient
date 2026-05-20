@@ -9,6 +9,7 @@ import { useAppSelector } from 'Store/hooks';
 import React from 'react';
 import RelationsCardContent from '../../components/relations/RelationsCardContent';
 import FormCard from '../components/forms/FormCard';
+import ImportMetadataCard from '../components/ImportMetadataCard';
 import { CARD_HEIGHT, CARD_WIDTH } from '../ksNode/EditKsNode';
 
 type Props = {
@@ -145,6 +146,7 @@ const EditPG: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
           />
         </Stack>
       </FormCard>
+      <ImportMetadataCard nodeType="pgnode" id={data.id} />
     </DefaultFormLayout>
   );
 };

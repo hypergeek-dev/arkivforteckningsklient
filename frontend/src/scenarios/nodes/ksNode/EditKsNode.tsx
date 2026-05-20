@@ -11,6 +11,7 @@ import { selectAuthUser } from 'Store/ducks/user/selectors';
 import { useAppSelector } from 'Store/hooks';
 import React from 'react';
 import FormCard from '../components/forms/FormCard';
+import ImportMetadataCard from '../components/ImportMetadataCard';
 
 type Props = {
   data?: ClassificationStructureTypeNodeDto;
@@ -139,6 +140,7 @@ const EditKsNode: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
           validators={[requireMaxLength(1000)]}
         />
       </FormCard>
+      <ImportMetadataCard nodeType="csnode" id={data.id} />
     </DefaultFormLayout>
   );
 };

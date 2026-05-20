@@ -1,14 +1,16 @@
-import { Validator, requireMaxLength, requiredField } from 'Common/validators';
+import { requireDateFormat, requireMaxLength, requiredField } from 'Common/validators';
 import { IssueTypeNodeDto } from 'Models/index';
 import TwoBooleanFormCard from 'Scenarios/nodes/components/forms/BooleanForm';
 import { StyledDateForm } from 'Scenarios/nodes/components/forms/DateForms';
 import DefaultFormLayout from 'Scenarios/nodes/components/forms/DefaultFormLayout';
+import { Stack } from '@mui/material';
 import React from 'react';
 import RelationsCardContent from '../../components/relations/RelationsCardContent';
 import FormCard from '../components/forms/FormCard';
 import { StyledInputForm } from '../components/forms/InputForm';
 import { CARD_HEIGHT, CARD_WIDTH } from '../ksNode/EditKsNode';
 import EgnaElementCard from '../components/EgnaElementCard';
+import ImportMetadataCard from '../components/ImportMetadataCard';
 
 type Props = {
   data: IssueTypeNodeDto;
@@ -74,6 +76,52 @@ const EditMatter: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
         />
       </FormCard>
 
+      <FormCard sx={{ width: CARD_WIDTH }}>
+        <Stack spacing={2}>
+          <StyledInputForm
+            name="underseriesignum"
+            title="Underseriesignum (t.ex. A1a)"
+            onChangeHandler={onChangeHandler}
+            value={data.underseriesignum ?? ''}
+            disabled={disabled}
+            maxLength={20}
+            validators={[requireMaxLength(20)]}
+          />
+          <StyledInputForm
+            name="handlingarFran"
+            title="Handlingar fr.o.m. (ÅÅÅÅ-MM-DD)"
+            onChangeHandler={onChangeHandler}
+            value={data.handlingarFran ?? ''}
+            disabled={disabled}
+            maxLength={10}
+            validators={[requireDateFormat()]}
+          />
+          <StyledInputForm
+            name="handlingarTill"
+            title="Handlingar t.o.m. (ÅÅÅÅ-MM-DD)"
+            onChangeHandler={onChangeHandler}
+            value={data.handlingarTill ?? ''}
+            disabled={disabled}
+            maxLength={10}
+            validators={[requireDateFormat()]}
+          />
+        </Stack>
+      </FormCard>
+
+      <FormCard sx={{ width: CARD_WIDTH }}>
+        <StyledInputForm
+          name="innehall"
+          title="Innehållsbeskrivning"
+          onChangeHandler={onChangeHandler}
+          value={data.innehall ?? ''}
+          multiline
+          rows={8}
+          disabled={disabled}
+          maxLength={5000}
+          validators={[requireMaxLength(5000)]}
+        />
+      </FormCard>
+
       <FormCard sx={{ position: 'relative' }} xs={12}>
         <RelationsCardContent
           data={data}
@@ -89,6 +137,7 @@ const EditMatter: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
           list={data.assignedElements}
         />
       </FormCard>
+      <ImportMetadataCard nodeType="issuenode" id={data.id} />
     </DefaultFormLayout>
   );
 };
