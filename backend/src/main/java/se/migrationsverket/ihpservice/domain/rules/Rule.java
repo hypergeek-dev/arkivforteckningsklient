@@ -29,6 +29,9 @@ public class Rule implements Domain, DomainMapper<RuleDto, RuleEntity> {
     private Date createdAt;
     private Date updatedAt;
     private UUID uuid;
+    private String raFsReferens;
+    private String gallringsgrund;
+    private String atgard;
 
 
     @Override
@@ -63,6 +66,9 @@ public class Rule implements Domain, DomainMapper<RuleDto, RuleEntity> {
                 .createdAt(getCreatedAt())
                 .updatedAt(new Date())
                 .uuid(getUuid())
+                .raFsReferens(getRaFsReferens())
+                .gallringsgrund(getGallringsgrund())
+                .atgard(getAtgard())
                 .build();
     }
 
@@ -74,6 +80,9 @@ public class Rule implements Domain, DomainMapper<RuleDto, RuleEntity> {
                 .comment(getComment())
                 .name(getName())
                 .createdBy(userId)
+                .raFsReferens(getRaFsReferens())
+                .gallringsgrund(getGallringsgrund())
+                .atgard(getAtgard())
                 .build();
     }
 

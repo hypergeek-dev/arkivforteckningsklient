@@ -40,6 +40,12 @@ public class RuleEntity implements Serializable, EntityI, EntityMapper<Rule> {
     @Column(name = "updated_at")
     private Date updatedAt;
     private UUID uuid;
+    @Column(name = "ra_fs_referens")
+    private String raFsReferens;
+    @Column(name = "gallringsgrund")
+    private String gallringsgrund;
+    @Column(name = "atgard")
+    private String atgard;
 
     @PrePersist
     void prePersist() {
@@ -69,6 +75,9 @@ public class RuleEntity implements Serializable, EntityI, EntityMapper<Rule> {
                 .updatedBy(getUpdatedBy())
                 .updatedAt(getUpdatedAt())
                 .uuid(getUuid())
+                .raFsReferens(getRaFsReferens())
+                .gallringsgrund(getGallringsgrund())
+                .atgard(getAtgard())
                 .build();
     }
 }

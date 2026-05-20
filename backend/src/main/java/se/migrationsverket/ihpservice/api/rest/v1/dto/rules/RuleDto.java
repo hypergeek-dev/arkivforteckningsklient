@@ -36,6 +36,9 @@ public class RuleDto implements DataTransferObject, DtoMapper<Rule> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date updatedAt;
     private UUID uuid;
+    private String raFsReferens;
+    private String gallringsgrund;
+    private String atgard;
 
     @Override
     public Rule map() {
@@ -53,6 +56,9 @@ public class RuleDto implements DataTransferObject, DtoMapper<Rule> {
                 .updatedAt(getUpdatedAt())
                 .uuid(getUuid())
                 .comment(getComment())
+                .raFsReferens(getRaFsReferens())
+                .gallringsgrund(getGallringsgrund())
+                .atgard(getAtgard())
                 .build();
     }
 
@@ -64,6 +70,9 @@ public class RuleDto implements DataTransferObject, DtoMapper<Rule> {
                 .terms(getRuleType().equals(RuleType.TEXT_RULE) ? new ArrayList<>() : getTerms().stream().map(TermDto::map).collect(Collectors.toList()))
                 .name(getName())
                 .comment(getComment())
+                .raFsReferens(getRaFsReferens())
+                .gallringsgrund(getGallringsgrund())
+                .atgard(getAtgard())
                 .build();
     }
 }

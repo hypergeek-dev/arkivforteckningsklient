@@ -57,6 +57,20 @@ public class ProcessTypeNodeEntity implements Serializable, EntityI, EntityMappe
     private String relationStructuralunit;
 
     private String number;
+    @Column(name = "seriesignum")
+    private String seriesignum;
+    @Column(name = "serie_rubrik")
+    private String serieRubrik;
+    @Column(name = "forvaringsplats")
+    private String forvaringsplats;
+    @Column(name = "innehall")
+    private String innehall;
+    @Column(name = "handlingar_fran")
+    private Date handlingarFran;
+    @Column(name = "handlingar_till")
+    private Date handlingarTill;
+    @Column(name = "omfang")
+    private String omfang;
 
     @PrePersist
     void prePersist() {
@@ -109,6 +123,13 @@ public class ProcessTypeNodeEntity implements Serializable, EntityI, EntityMappe
                 .updatedBy(getUpdatedBy())
                 .number(getNumber())
                 .uuid(getUuid())
+                .seriesignum(getSeriesignum())
+                .serieRubrik(getSerieRubrik())
+                .forvaringsplats(getForvaringsplats())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .omfang(getOmfang())
                 .build();
     }
 }

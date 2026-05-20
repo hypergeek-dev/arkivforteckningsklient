@@ -59,6 +59,16 @@ public class OperationalAreaTypeNodeEntity implements Serializable, EntityI, Ent
     private String lawsection;
     @Column(name = "relation_structuralunit")
     private String relationStructuralunit;
+    @Column(name = "org_nummer")
+    private String orgNummer;
+    @Column(name = "arkivansvarig")
+    private String arkivansvarig;
+    @Column(name = "adress")
+    private String adress;
+    @Column(name = "verksamhetsperiod_start")
+    private Date verksamhetsperiodStart;
+    @Column(name = "verksamhetsperiod_slut")
+    private Date verksamhetsperiodSlut;
 
     @PrePersist
     void prePersist() {
@@ -112,6 +122,11 @@ public class OperationalAreaTypeNodeEntity implements Serializable, EntityI, Ent
                 .authDecision(getAuthDecision())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .orgNummer(getOrgNummer())
+                .arkivansvarig(getArkivansvarig())
+                .adress(getAdress())
+                .verksamhetsperiodStart(getVerksamhetsperiodStart())
+                .verksamhetsperiodSlut(getVerksamhetsperiodSlut())
                 .build();
     }
 }

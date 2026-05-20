@@ -30,6 +30,11 @@ public class ProcessGroupTypeNode extends StructureTypeNode implements Domain, D
     private NodeStatus parentStatus;
     private List<NodeRelation> relations;
     private List<ProcessGroupTypeNode> relationsNodes;
+    private String arkivIdBeteckning;
+    private String forvaringsplats;
+    private Date handlingarFran;
+    private Date handlingarTill;
+    private Integer volymAntal;
 
     @Override
     public ProcessGroupTypeNodeDto mapToDto() {
@@ -56,6 +61,11 @@ public class ProcessGroupTypeNode extends StructureTypeNode implements Domain, D
                 .updated(getUpdateAt())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .arkivIdBeteckning(getArkivIdBeteckning())
+                .forvaringsplats(getForvaringsplats())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .volymAntal(getVolymAntal())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelation::mapToDto).collect(Collectors.toList()))
                 .build();
     }
@@ -82,6 +92,11 @@ public class ProcessGroupTypeNode extends StructureTypeNode implements Domain, D
                 .updatedBy(getUpdatedBy())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .arkivIdBeteckning(getArkivIdBeteckning())
+                .forvaringsplats(getForvaringsplats())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .volymAntal(getVolymAntal())
                 .build();
     }
 
@@ -103,6 +118,11 @@ public class ProcessGroupTypeNode extends StructureTypeNode implements Domain, D
                 .createdBy(userId)
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .arkivIdBeteckning(getArkivIdBeteckning())
+                .forvaringsplats(getForvaringsplats())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .volymAntal(getVolymAntal())
                 .build();
     }
 

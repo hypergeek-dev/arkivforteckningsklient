@@ -30,6 +30,11 @@ public class OperationalAreaTypeNode extends StructureTypeNode implements Domain
     private Date decisionDate;
     private NodeStatus parentStatus;
     private List<NodeRelation> relations;
+    private String orgNummer;
+    private String arkivansvarig;
+    private String adress;
+    private Date verksamhetsperiodStart;
+    private Date verksamhetsperiodSlut;
 
     @Override
     public OperationalAreaTypeNodeDto mapToDto() {
@@ -57,6 +62,11 @@ public class OperationalAreaTypeNode extends StructureTypeNode implements Domain
                 .authDecision(getAuthDecision())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .orgNummer(getOrgNummer())
+                .arkivansvarig(getArkivansvarig())
+                .adress(getAdress())
+                .verksamhetsperiodStart(getVerksamhetsperiodStart())
+                .verksamhetsperiodSlut(getVerksamhetsperiodSlut())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelation::mapToDto).collect(Collectors.toList()))
                 .build();
     }
@@ -84,6 +94,11 @@ public class OperationalAreaTypeNode extends StructureTypeNode implements Domain
                 .authDecision(getAuthDecision())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .orgNummer(getOrgNummer())
+                .arkivansvarig(getArkivansvarig())
+                .adress(getAdress())
+                .verksamhetsperiodStart(getVerksamhetsperiodStart())
+                .verksamhetsperiodSlut(getVerksamhetsperiodSlut())
                 .build();
     }
 
@@ -106,6 +121,11 @@ public class OperationalAreaTypeNode extends StructureTypeNode implements Domain
                 .authDecision(getAuthDecision())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .orgNummer(getOrgNummer())
+                .arkivansvarig(getArkivansvarig())
+                .adress(getAdress())
+                .verksamhetsperiodStart(getVerksamhetsperiodStart())
+                .verksamhetsperiodSlut(getVerksamhetsperiodSlut())
                 .build();
     }
 

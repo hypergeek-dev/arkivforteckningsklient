@@ -40,6 +40,13 @@ public class OperationalAreaTypeNodeDto extends StructureNodeDto implements Data
     private Date decisionDate;
     private NodeStatus parentStatus;
     private List<NodeRelationDto> relations;
+    private String orgNummer;
+    private String arkivansvarig;
+    private String adress;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date verksamhetsperiodStart;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date verksamhetsperiodSlut;
 
     @Override
     public OperationalAreaTypeNode map() {
@@ -63,6 +70,11 @@ public class OperationalAreaTypeNodeDto extends StructureNodeDto implements Data
                 .authDecision(getAuthDecision())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .orgNummer(getOrgNummer())
+                .arkivansvarig(getArkivansvarig())
+                .adress(getAdress())
+                .verksamhetsperiodStart(getVerksamhetsperiodStart())
+                .verksamhetsperiodSlut(getVerksamhetsperiodSlut())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelationDto::map).collect(Collectors.toList()))
                 .build();
     }
@@ -85,6 +97,11 @@ public class OperationalAreaTypeNodeDto extends StructureNodeDto implements Data
                 .authDecision(getAuthDecision())
                 .decisionDate(getDecisionDate())
                 .uuid(UUID.randomUUID())
+                .orgNummer(getOrgNummer())
+                .arkivansvarig(getArkivansvarig())
+                .adress(getAdress())
+                .verksamhetsperiodStart(getVerksamhetsperiodStart())
+                .verksamhetsperiodSlut(getVerksamhetsperiodSlut())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelationDto::map).collect(Collectors.toList()))
                 .build();
     }

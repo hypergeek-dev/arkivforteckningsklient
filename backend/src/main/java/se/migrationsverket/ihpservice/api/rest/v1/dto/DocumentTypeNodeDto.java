@@ -53,6 +53,11 @@ public class DocumentTypeNodeDto extends StructureNodeDto implements DataTransfe
     private List<ElementDto> assignedElements;
     @NotNull
     private Integer index;
+    private String volymnum;
+    private String forvaringsplats;
+    private String formatBeskriv;
+    private String tillganglighet;
+    private String omfang;
 
     public Integer getIndex() {
         return index == null ? 0 : index;
@@ -86,6 +91,11 @@ public class DocumentTypeNodeDto extends StructureNodeDto implements DataTransfe
                 .manualEvaluation(getManualEvaluation())
                 .assignedRules(getAssignedRules() == null ? new ArrayList<>() : getAssignedRules().stream().map(RuleDto::map).collect(Collectors.toList()))
                 .assignedElements(getAssignedElements() == null ? new ArrayList<>() : getAssignedElements().stream().map(ElementDto::map).collect(Collectors.toList()))
+                .volymnum(getVolymnum())
+                .forvaringsplats(getForvaringsplats())
+                .formatBeskriv(getFormatBeskriv())
+                .tillganglighet(getTillganglighet())
+                .omfang(getOmfang())
                 .build();
     }
 
@@ -115,6 +125,11 @@ public class DocumentTypeNodeDto extends StructureNodeDto implements DataTransfe
                 .assignedRules(getAssignedRules() == null ? new ArrayList<>() : getAssignedRules().stream().map(RuleDto::map).collect(Collectors.toList()))
                 .assignedElements(getAssignedElements() == null ? new ArrayList<>() : getAssignedElements().stream().map(ElementDto::map).collect(Collectors.toList()))
                 .secrecyLawsection(getSecrecyLawsection())
+                .volymnum(getVolymnum())
+                .forvaringsplats(getForvaringsplats())
+                .formatBeskriv(getFormatBeskriv())
+                .tillganglighet(getTillganglighet())
+                .omfang(getOmfang())
                 .build();
     }
 

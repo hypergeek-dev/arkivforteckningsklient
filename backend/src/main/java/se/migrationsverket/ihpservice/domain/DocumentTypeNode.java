@@ -36,6 +36,11 @@ public class DocumentTypeNode extends StructureTypeNode implements Domain, Domai
     private List<Rule> assignedRules;
     private List<Element> assignedElements;
     private Integer index;
+    private String volymnum;
+    private String forvaringsplats;
+    private String formatBeskriv;
+    private String tillganglighet;
+    private String omfang;
 
     @Override
     public DocumentTypeNodeDto mapToDto() {
@@ -68,6 +73,11 @@ public class DocumentTypeNode extends StructureTypeNode implements Domain, Domai
                 .assignedElements(getAssignedElements() == null ? new ArrayList<>() : getAssignedElements().stream().map(Element::mapToDto).collect(Collectors.toList()))
                 .regulation(getRegulation())
                 .manualEvaluation(getManualEvaluation())
+                .volymnum(getVolymnum())
+                .forvaringsplats(getForvaringsplats())
+                .formatBeskriv(getFormatBeskriv())
+                .tillganglighet(getTillganglighet())
+                .omfang(getOmfang())
                 .build();
     }
 
@@ -98,6 +108,11 @@ public class DocumentTypeNode extends StructureTypeNode implements Domain, Domai
                 .index(getIndex())
                 .regulation(getRegulation())
                 .manualEvaluation(getManualEvaluation())
+                .volymnum(getVolymnum())
+                .forvaringsplats(getForvaringsplats())
+                .formatBeskriv(getFormatBeskriv())
+                .tillganglighet(getTillganglighet())
+                .omfang(getOmfang())
                 .build();
     }
 
@@ -124,6 +139,11 @@ public class DocumentTypeNode extends StructureTypeNode implements Domain, Domai
                 .secrecy(getSecrecy())
                 .secrecyLawsection(getSecrecyLawsection())
                 .personalData(getPersonalData())
+                .volymnum(getVolymnum())
+                .forvaringsplats(getForvaringsplats())
+                .formatBeskriv(getFormatBeskriv())
+                .tillganglighet(getTillganglighet())
+                .omfang(getOmfang())
                 .build();
     }
 

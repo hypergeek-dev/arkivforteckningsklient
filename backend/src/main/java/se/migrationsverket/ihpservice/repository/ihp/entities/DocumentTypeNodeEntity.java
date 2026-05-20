@@ -61,6 +61,16 @@ public class DocumentTypeNodeEntity implements Serializable, EntityI, EntityMapp
     @Column(name = "manual_evaluation")
     private Boolean manualEvaluation;
     private Integer index;
+    @Column(name = "volymnum")
+    private String volymnum;
+    @Column(name = "forvaringsplats")
+    private String forvaringsplats;
+    @Column(name = "format_beskriv")
+    private String formatBeskriv;
+    @Column(name = "tillganglighet")
+    private String tillganglighet;
+    @Column(name = "omfang")
+    private String omfang;
 
     @PrePersist
     void prePersist() {
@@ -132,6 +142,11 @@ public class DocumentTypeNodeEntity implements Serializable, EntityI, EntityMapp
                 .index(getIndex())
                 .regulation(getRegulation())
                 .manualEvaluation(getManualEvaluation())
+                .volymnum(getVolymnum())
+                .forvaringsplats(getForvaringsplats())
+                .formatBeskriv(getFormatBeskriv())
+                .tillganglighet(getTillganglighet())
+                .omfang(getOmfang())
                 .build();
     }
 }

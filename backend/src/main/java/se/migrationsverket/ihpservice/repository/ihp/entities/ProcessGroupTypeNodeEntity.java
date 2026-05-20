@@ -57,6 +57,16 @@ public class ProcessGroupTypeNodeEntity implements Serializable, EntityI, Entity
     private String lawsection;
     @Column(name = "relation_structuralunit")
     private String relationStructuralunit;
+    @Column(name = "arkiv_id_beteckning")
+    private String arkivIdBeteckning;
+    @Column(name = "forvaringsplats")
+    private String forvaringsplats;
+    @Column(name = "handlingar_fran")
+    private Date handlingarFran;
+    @Column(name = "handlingar_till")
+    private Date handlingarTill;
+    @Column(name = "volym_antal")
+    private Integer volymAntal;
 
     @PrePersist
     void prePersist() {
@@ -109,6 +119,11 @@ public class ProcessGroupTypeNodeEntity implements Serializable, EntityI, Entity
                 .updatedBy(getUpdatedBy())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .arkivIdBeteckning(getArkivIdBeteckning())
+                .forvaringsplats(getForvaringsplats())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .volymAntal(getVolymAntal())
                 .build();
     }
 }

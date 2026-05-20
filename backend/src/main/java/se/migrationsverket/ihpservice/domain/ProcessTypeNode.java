@@ -29,6 +29,13 @@ public class ProcessTypeNode extends StructureTypeNode implements Domain, Domain
     private String number;
     private NodeStatus parentStatus;
     private List<NodeRelation> relations;
+    private String seriesignum;
+    private String serieRubrik;
+    private String forvaringsplats;
+    private String innehall;
+    private Date handlingarFran;
+    private Date handlingarTill;
+    private String omfang;
 
     @Override
     public ProcessTypeNodeDto mapToDto() {
@@ -56,6 +63,13 @@ public class ProcessTypeNode extends StructureTypeNode implements Domain, Domain
                 .updatedBy(getUpdatedBy())
                 .number(getNumber())
                 .uuid(getUuid())
+                .seriesignum(getSeriesignum())
+                .serieRubrik(getSerieRubrik())
+                .forvaringsplats(getForvaringsplats())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .omfang(getOmfang())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelation::mapToDto).collect(Collectors.toList()))
                 .build();
     }
@@ -82,6 +96,13 @@ public class ProcessTypeNode extends StructureTypeNode implements Domain, Domain
                 .updatedBy(getUpdatedBy())
                 .number(getNumber())
                 .uuid(getUuid())
+                .seriesignum(getSeriesignum())
+                .serieRubrik(getSerieRubrik())
+                .forvaringsplats(getForvaringsplats())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .omfang(getOmfang())
                 .build();
     }
 
@@ -103,6 +124,13 @@ public class ProcessTypeNode extends StructureTypeNode implements Domain, Domain
                 .createdBy(userId)
                 .number(getNumber())
                 .uuid(getUuid())
+                .seriesignum(getSeriesignum())
+                .serieRubrik(getSerieRubrik())
+                .forvaringsplats(getForvaringsplats())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .omfang(getOmfang())
                 .build();
     }
 

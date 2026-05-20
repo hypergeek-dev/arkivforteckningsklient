@@ -38,6 +38,13 @@ public class ProcessGroupTypeNodeDto extends StructureNodeDto implements DataTra
     private Date decisionDate;
     private NodeStatus parentStatus;
     private List<NodeRelationDto> relations;
+    private String arkivIdBeteckning;
+    private String forvaringsplats;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date handlingarFran;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date handlingarTill;
+    private Integer volymAntal;
 
     @Override
     public ProcessGroupTypeNode map() {
@@ -60,6 +67,11 @@ public class ProcessGroupTypeNodeDto extends StructureNodeDto implements DataTra
                 .createdBy(getCreatedBy())
                 .decisionDate(getDecisionDate())
                 .uuid(getUuid())
+                .arkivIdBeteckning(getArkivIdBeteckning())
+                .forvaringsplats(getForvaringsplats())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .volymAntal(getVolymAntal())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelationDto::map).collect(Collectors.toList()))
                 .build();
     }
@@ -81,6 +93,11 @@ public class ProcessGroupTypeNodeDto extends StructureNodeDto implements DataTra
                 .path(getPath())
                 .decisionDate(getDecisionDate())
                 .uuid(UUID.randomUUID())
+                .arkivIdBeteckning(getArkivIdBeteckning())
+                .forvaringsplats(getForvaringsplats())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
+                .volymAntal(getVolymAntal())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelationDto::map).collect(Collectors.toList()))
                 .build();
     }
