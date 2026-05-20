@@ -4,10 +4,12 @@ import jakarta.servlet.DispatcherType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import se.migrationsverket.ihpservice.support.ApplicationStatics;
 
@@ -27,6 +29,17 @@ public class SecurityAndWebConfig implements WebMvcConfigurer {
     String appName;
     @Value("${environment}")
     String env;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void warnIfMockAuthActive() {
+        if ("local".equalsIgnoreCase(env)) {
+            log.warn("╔══════════════════════════════════════════════════════════════╗");
+            log.warn("║  VARNING: MOCK-IAM ÄR AKTIV – ALLA ÅTGÄRDER TILLÅTS         ║");
+            log.warn("║  Sätt ENVIRONMENT=production i miljövariablerna för          ║");
+            log.warn("║  alla driftsättningar utanför lokal utveckling.              ║");
+            log.warn("╚══════════════════════════════════════════════════════════════╝");
+        }
+    }
 
     /* Central Service Provider */
     @Bean
