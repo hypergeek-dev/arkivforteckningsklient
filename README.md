@@ -8,6 +8,8 @@ Webbaserat verktyg för att upprätta, förvalta och fastställa **arkivförteck
 
 Baserat på Migrationsverkets öppna källkod [IHPv](https://github.com/migrationsverket/IHPv), omarbetad och utökad för arkivredovisning.
 
+![Skärmbild av förteckningsklienten](./bilder/presentation.png)
+
 ---
 
 ## Strukturmodell
