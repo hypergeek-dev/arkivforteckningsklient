@@ -5,8 +5,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import se.migrationsverket.ihpservice.repository.ihp.db.ImportBatchRepository;
-
 import javax.sql.DataSource;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,11 +35,9 @@ public class VisualArkivLoadService {
     private static final Set<String> EXCLUDED = Set.of("id", "target_type");
 
     private final NamedParameterJdbcTemplate jdbc;
-    private final ImportBatchRepository batchRepository;
 
-    public VisualArkivLoadService(DataSource dataSource, ImportBatchRepository batchRepository) {
+    public VisualArkivLoadService(DataSource dataSource) {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
-        this.batchRepository = batchRepository;
     }
 
     /**
@@ -91,7 +87,6 @@ public class VisualArkivLoadService {
             combined.addAll(errors);
             batch.setErrors(combined);
         }
-        batchRepository.save(batch);
 
         log.info("Load complete: imported={} duplicate={} failed={}", imported, duplicate, failed);
         return new LoadResult(imported, duplicate, failed, errors);

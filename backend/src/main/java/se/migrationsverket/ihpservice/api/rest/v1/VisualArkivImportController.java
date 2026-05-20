@@ -136,6 +136,7 @@ public class VisualArkivImportController {
         UUID batchId = UUID.randomUUID();
         Instant now = Instant.now();
         String operator = resolveOperator();
+        ImportBatch batch = null;
 
         try {
             int maxRows = request.maxRows() > 0 ? request.maxRows() : Integer.MAX_VALUE;
@@ -152,7 +153,7 @@ public class VisualArkivImportController {
             List<String> warnings = collectWarnings(transformed);
             List<String> unmapped = collectUnmapped(transformed);
 
-            ImportBatch batch = ImportBatch.builder()
+            batch = ImportBatch.builder()
                 .id(batchId)
                 .sourceType("visual_arkiv")
                 .sourceDatabase(properties.getDatabase())
@@ -193,6 +194,11 @@ public class VisualArkivImportController {
 
         } catch (Exception e) {
             log.error("Execute (real import) failed batchId={}", batchId, e);
+            if (batch != null) {
+                batch.setCompletedAt(Instant.now());
+                batch.setStatus(ImportBatch.Status.FAILED.name());
+                batchRepository.save(batch);
+            }
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", "Import misslyckades: " + e.getMessage()));
         }
