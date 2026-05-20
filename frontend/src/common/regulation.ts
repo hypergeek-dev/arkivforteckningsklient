@@ -6,17 +6,17 @@ export const DEFINED_ATTRIBUTES = {
   ISSUE_END: {
     name: 'ISSUE_END',
     label: 'ärendet har avslutats',
-    steps: ['CREATE', 'EVENT1', 'EVENT2', 'TIME1', 'TIME2', 'COMMENT'],
+    steps: ['CREATE', 'EVENT1', 'EVENT2', 'TIME1', 'TIME2', 'COMMENT', 'ARCHIVAL_META'],
   },
   DOCUMENT_RECEIVED: {
     name: 'DOCUMENT_RECEIVED',
     label: 'handlingen har inkommit',
-    steps: ['CREATE', 'TIME1', 'EVENT1', 'COMMENT'],
+    steps: ['CREATE', 'TIME1', 'EVENT1', 'COMMENT', 'ARCHIVAL_META'],
   },
   DOCUMENT_ACCEPTED: {
     name: 'DOCUMENT_ACCEPTED',
     label: 'handlingen upprättades',
-    steps: ['CREATE', 'TIME1', 'EVENT1', 'COMMENT'],
+    steps: ['CREATE', 'TIME1', 'EVENT1', 'COMMENT', 'ARCHIVAL_META'],
   },
   ISSUE_REVIEWED: {
     name: 'ISSUE_REVIEWED',

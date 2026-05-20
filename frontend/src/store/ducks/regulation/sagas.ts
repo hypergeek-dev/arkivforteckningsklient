@@ -114,6 +114,9 @@ function* saveRule(action: PayloadAction<SaveRuleOption>) {
     comment: state.comment,
     name: createRuleName(state.createType, state.timeTerm1, state.dummyName),
     description: commandText.map((o) => o.text).join(' '),
+    raFsReferens: state.raFsReferens,
+    gallringsgrund: state.gallringsgrund,
+    atgard: state.atgard,
     terms:
       state.createType === 'TEXT_RULE'
         ? undefined

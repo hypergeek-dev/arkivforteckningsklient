@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'Store/hooks';
 import React, { useEffect, useState } from 'react';
 import CommandInterpreter from './components/CommandInterpreter';
 import RuleChipSelector from './components/RuleSelector';
+import ArchivalMetaStep from './components/stepper/ArchivalMetaStep';
 import CommentStep from './components/stepper/CommentStep';
 import DefaultStepper from './components/stepper/DefaultStepper';
 import EventSelection from './components/stepper/EventSelection';
@@ -60,6 +61,12 @@ const defaultRuleSteps: DefaultStep[] = [
     label: 'Lägg till en kommentar',
     content: <CommentStep key="commentField" />,
   },
+  {
+    uniqueKey: 'archivalMeta',
+    key: 'ARCHIVAL_META',
+    label: 'Gallrings-/bevarandemetadata (valfritt)',
+    content: <ArchivalMetaStep key="archivalMetaField" />,
+  },
 ];
 
 const exceptionRuleSteps: DefaultStep[] = [
@@ -105,6 +112,12 @@ const textRuleSteps: DefaultStep[] = [
     key: 'EVENT2',
     label: 'Beskriv referensregelns villkor',
     content: <FreeTextSelection key="villkorevent1" />,
+  },
+  {
+    uniqueKey: 'archivalMeta',
+    key: 'ARCHIVAL_META',
+    label: 'Gallrings-/bevarandemetadata (valfritt)',
+    content: <ArchivalMetaStep key="archivalMetaFieldText" />,
   },
 ];
 

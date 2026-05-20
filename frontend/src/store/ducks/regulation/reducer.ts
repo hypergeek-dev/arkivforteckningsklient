@@ -35,6 +35,9 @@ export type RegulationState = {
   imdone: boolean;
   activeStep: number;
   comment?: string;
+  raFsReferens?: string;
+  gallringsgrund?: string;
+  atgard?: string;
   searchFilter: SearchRegulationFilter[];
   sortOrder: SortOrder;
   ruleList: RuleDto[];
@@ -58,12 +61,15 @@ export const initialState: RegulationState = {
   eventTerm2: undefined,
   dummyText: '',
   dummyName: '',
-  steps: ['CREATE', 'EVENT1', 'EVENT2', 'TIME1', 'TIME2', 'COMMENT'],
+  steps: ['CREATE', 'EVENT1', 'EVENT2', 'TIME1', 'TIME2', 'COMMENT', 'ARCHIVAL_META'],
   imdone: false,
   ruleList: [],
   activeStep: 0,
   searchFilter: [],
   sortOrder: 'LATEST',
+  raFsReferens: undefined,
+  gallringsgrund: undefined,
+  atgard: undefined,
 };
 
 export const appSlice = createSlice({
@@ -73,6 +79,15 @@ export const appSlice = createSlice({
     reset: () => initialState,
     setComment: (state, action: PayloadAction<string>) => {
       state.comment = action.payload;
+    },
+    setRaFsReferens: (state, action: PayloadAction<string>) => {
+      state.raFsReferens = action.payload;
+    },
+    setGallringsgrund: (state, action: PayloadAction<string>) => {
+      state.gallringsgrund = action.payload;
+    },
+    setAtgard: (state, action: PayloadAction<string>) => {
+      state.atgard = action.payload;
     },
     setConfirm: (state, action: PayloadAction<ConfirmOptions>) => {
       state.confirm = action.payload;
@@ -111,6 +126,9 @@ export const appSlice = createSlice({
       state.imdone = false;
       state.activeStep = 0;
       state.comment = undefined;
+      state.raFsReferens = undefined;
+      state.gallringsgrund = undefined;
+      state.atgard = undefined;
     },
     resetState: (state, action: PayloadAction<RegulationState>) => {
       const {
@@ -138,6 +156,7 @@ export const appSlice = createSlice({
         'TIME1',
         'TIME2',
         'COMMENT',
+        'ARCHIVAL_META',
       ];
       state.dummyText = dummyText || '';
       state.dummyName = dummyName || '';
@@ -200,6 +219,9 @@ export const appSlice = createSlice({
     setSelectedRule: (state, action: PayloadAction<RuleDto>) => {
       const rule = action.payload;
       state.comment = rule.comment;
+      state.raFsReferens = rule.raFsReferens;
+      state.gallringsgrund = rule.gallringsgrund;
+      state.atgard = rule.atgard;
       state.selectedRule = rule;
       const { terms } = rule;
       state.id = rule.id;

@@ -131,7 +131,8 @@ export type StepKey =
   | 'TIME2'
   | 'EVENT1'
   | 'EVENT2'
-  | 'COMMENT';
+  | 'COMMENT'
+  | 'ARCHIVAL_META';
 export interface DefaultStep {
   uniqueKey: string;
   key: StepKey;

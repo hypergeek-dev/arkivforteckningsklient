@@ -61,6 +61,7 @@ const DefaultStepper: React.FC<DefaultStepperProps> = ({ steps, dispatch }) => {
     if (step.key === 'TIME1' && timeTermSelected(timeTerm1)) return false;
     if (step.key === 'TIME2' && timeTermSelected(timeTerm2)) return false;
     if (step.key === 'COMMENT') return false;
+    if (step.key === 'ARCHIVAL_META') return false;
 
     return true;
   };

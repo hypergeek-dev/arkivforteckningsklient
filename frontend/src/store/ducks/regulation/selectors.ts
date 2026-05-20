@@ -92,6 +92,18 @@ export const selectComment = createSelector(
   selectRegulationState,
   (state) => state.comment || ''
 );
+export const selectRaFsReferens = createSelector(
+  selectRegulationState,
+  (state) => state.raFsReferens || ''
+);
+export const selectGallringsgrund = createSelector(
+  selectRegulationState,
+  (state) => state.gallringsgrund || ''
+);
+export const selectAtgard = createSelector(
+  selectRegulationState,
+  (state) => state.atgard || ''
+);
 export const selectConfirm = createSelector(
   selectRegulationState,
   (state) => state.confirm
