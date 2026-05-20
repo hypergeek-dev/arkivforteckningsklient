@@ -42,7 +42,7 @@ const KsReport: React.FC = () => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'FaststalldInformationshanteringsplan.json'; // Filnamn
+        link.download = 'FaststalldArkivforteckning.json';
         document.body.appendChild(link);
         link.click();
 
@@ -87,7 +87,7 @@ const KsReport: React.FC = () => {
         >
           <Stack spacing={2} sx={{ mb: 2 }}>
             <Button onClick={downloadIhp} variant="contained" color="primary">
-              Ladda ned Fastställd IHP (JSON)
+              Ladda ned Fastställd Arkivförteckning (JSON)
             </Button>
             <Button
               variant="outlined"
@@ -129,7 +129,7 @@ const KsReport: React.FC = () => {
               color="primary"
               onClick={() => setIncludeIHP(!includeIhp)}
             >
-              {includeIhp ? 'Dölj IHP' : 'Visa IHP'}
+              {includeIhp ? 'Dölj alla fält' : 'Visa alla fält'}
             </Button>
           </Stack>
         </Grid2>

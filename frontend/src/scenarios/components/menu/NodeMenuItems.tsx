@@ -6,6 +6,7 @@ import {
   Edit,
   LockOpenOutlined,
   PictureAsPdf,
+  UploadFile,
 } from '@mui/icons-material';
 import { ListItemIcon, ListItemText } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,6 +14,8 @@ import { NodeName, Status } from 'Models/typed';
 import { actions } from 'Store/ducks/app/reducer';
 import { useAppDispatch, useAppSelector } from 'Store/hooks';
 import * as React from 'react';
+import { useState } from 'react';
+import ImportDialog from '../dialogs/ImportDialog';
 
 import { nodeTypeMapper } from 'Common/helper';
 import { ClassificationStructureTypeNodeDto } from 'Models/index';
@@ -38,6 +41,7 @@ const NodeMenuItems: React.FC<Props> = ({
   setOpenConfirm,
 }) => {
   const authorized = useAppSelector(selectAuthUser);
+  const [importOpen, setImportOpen] = useState(false);
 
   const activeEstablishedKS = useAppSelector(
     dataSelectors.selectActiveEstablishedKsId
@@ -81,7 +85,7 @@ const NodeMenuItems: React.FC<Props> = ({
           <ListItemIcon>
             <PictureAsPdf fontSize="small" />
           </ListItemIcon>
-          <ListItemText>IHP rapport</ListItemText>
+          <ListItemText>Rapport</ListItemText>
         </MenuItem>
       )}
       {nodeName !== 'documentnode' && (
@@ -217,6 +221,32 @@ const NodeMenuItems: React.FC<Props> = ({
           }
         />
       )}
+      <AuthorizedMenuItem
+        ks={ks}
+        nodeName={nodeName}
+        nodeStatus={status}
+        menuAction="IMPORT"
+        component={
+          <MenuItem
+            aria-label="Importera arkivförteckning"
+            title="Importera arkivförteckning från JSON-fil"
+            onClick={() => {
+              setImportOpen(true);
+              handleClose();
+            }}
+          >
+            <ListItemIcon>
+              <UploadFile fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Importera arkivförteckning</ListItemText>
+          </MenuItem>
+        }
+      />
+      <ImportDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onSuccess={() => setImportOpen(false)}
+      />
     </>
   );
 };

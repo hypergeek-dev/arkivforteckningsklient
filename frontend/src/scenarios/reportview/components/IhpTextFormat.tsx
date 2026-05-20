@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { CommonNode } from 'Models/typed';
+import { ProcessTypeNodeDto } from 'Models/index';
 import React from 'react';
 
 const IhpTextFormat = ({ node }: { node: CommonNode }) => {
@@ -18,14 +19,17 @@ const IhpTextFormat = ({ node }: { node: CommonNode }) => {
     case 'pgnode':
       variant = 'h3';
       break;
-    case 'processnode':
+    case 'processnode': {
       variant = 'h4';
+      const signum = (node as ProcessTypeNodeDto).seriesignum;
+      if (signum) prefix = `${node.localPath} [${signum}] `;
       break;
+    }
     case 'issuenode':
-      prefix = '(ÄT) ';
+      prefix = `${node.localPath} (US) `;
       break;
     case 'documentnode':
-      prefix = '(HT) ';
+      prefix = `${node.localPath} (V) `;
       break;
   }
   return (
