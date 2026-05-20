@@ -8,7 +8,7 @@ import { useAppSelector } from 'Store/hooks';
 import React from 'react';
 import FormCard from '../components/forms/FormCard';
 import { CARD_HEIGHT, CARD_WIDTH } from '../ksNode/EditKsNode';
-import { requireMaxLength, requiredField } from 'Common/validators';
+import { requireDateFormat, requireMaxLength, requiredField } from 'Common/validators';
 
 type Props = {
   data: OperationalAreaTypeNodeDto;
@@ -117,6 +117,7 @@ const EditOperationalAreaNode: React.FC<Props> = ({
             value={data.verksamhetsperiodStart || ''}
             disabled={disabled}
             maxLength={10}
+            validators={[requireDateFormat()]}
           />
           <StyledInputForm
             name="verksamhetsperiodSlut"
@@ -125,6 +126,7 @@ const EditOperationalAreaNode: React.FC<Props> = ({
             value={data.verksamhetsperiodSlut || ''}
             disabled={disabled}
             maxLength={10}
+            validators={[requireDateFormat()]}
           />
         </Stack>
       </FormCard>

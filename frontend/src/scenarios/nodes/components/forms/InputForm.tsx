@@ -48,6 +48,7 @@ const InputForm: React.FC<Props> = ({
       }`;
     }
     if (error === 'NUMBERS_ONLY') return 'Endast siffror är tillåtna.';
+    if (error === 'DATE_FORMAT') return 'Datum måste anges som ÅÅÅÅ-MM-DD (t.ex. 2024-01-15).';
   };
 
   React.useEffect(() => {

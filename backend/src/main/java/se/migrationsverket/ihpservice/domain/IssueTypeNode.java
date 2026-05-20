@@ -30,6 +30,10 @@ public class IssueTypeNode extends StructureTypeNode implements Domain, DomainMa
     private List<NodeRelation> relations;
     private List<Element> assignedElements;
     private Integer index;
+    private String underseriesignum;
+    private String innehall;
+    private Date handlingarFran;
+    private Date handlingarTill;
 
     public Integer getIndex() {
         if (index == null){
@@ -61,6 +65,10 @@ public class IssueTypeNode extends StructureTypeNode implements Domain, DomainMa
                 .number(getNumber())
                 .index(getIndex())
                 .uuid(getUuid())
+                .underseriesignum(getUnderseriesignum())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelation::mapToDto).collect(Collectors.toList()))
                 .assignedElements(getAssignedElements() == null ? new ArrayList<>() : getAssignedElements().stream().map(Element::mapToDto).collect(Collectors.toList()))
                 .build();
@@ -87,6 +95,10 @@ public class IssueTypeNode extends StructureTypeNode implements Domain, DomainMa
                 .number(extractNumber())
                 .index(getIndex())
                 .uuid(getUuid())
+                .underseriesignum(getUnderseriesignum())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
                 .build();
     }
 
@@ -117,6 +129,10 @@ public class IssueTypeNode extends StructureTypeNode implements Domain, DomainMa
                 .number(getNumber())
                 .index(getIndex())
                 .uuid(getUuid())
+                .underseriesignum(getUnderseriesignum())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
                 .build();
     }
 

@@ -69,6 +69,7 @@ public class ImportController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             int created = 0;
+            int failed = 0;
             String importedCsNodeId = null;
 
             for (Map<String, Object> node : nodes) {
@@ -152,14 +153,17 @@ public class ImportController {
                         default -> log.warn("Okänd nodtyp vid import: {}", nodeName);
                     }
                 } catch (Exception e) {
-                    log.error("Fel vid skapande av nod {}: {}", oldId, e.getMessage());
+                    log.error("Fel vid skapande av nod {} (typ={}): {}", oldId, nodeName, e.getMessage());
+                    failed++;
                 }
             }
 
+            boolean partialFailure = failed > 0;
             return ResponseEntity.ok(ImportResultDto.builder()
-                    .success(true)
-                    .message(String.format("Import klar. %d noder skapades.", created))
+                    .success(!partialFailure || created > 0)
+                    .message(String.format("Import klar. %d noder skapades, %d misslyckades.", created, failed))
                     .importedCsnodeId(importedCsNodeId)
+                    .nodesFailed(failed)
                     .build());
 
         } catch (Exception e) {

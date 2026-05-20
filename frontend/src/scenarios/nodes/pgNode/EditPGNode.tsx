@@ -1,4 +1,4 @@
-import { requireMaxLength, requiredField } from 'Common/validators';
+import { requireDateFormat, requireMaxLength, requiredField } from 'Common/validators';
 import { ProcessGroupTypeNodeDto } from 'Models/index';
 import { StyledDateForm } from 'Scenarios/nodes/components/forms/DateForms';
 import DefaultFormLayout from 'Scenarios/nodes/components/forms/DefaultFormLayout';
@@ -124,6 +124,7 @@ const EditPG: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
             value={data.handlingarFran || ''}
             disabled={disabled}
             maxLength={10}
+            validators={[requireDateFormat()]}
           />
           <StyledInputForm
             name="handlingarTill"
@@ -132,6 +133,7 @@ const EditPG: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
             value={data.handlingarTill || ''}
             disabled={disabled}
             maxLength={10}
+            validators={[requireDateFormat()]}
           />
           <StyledInputForm
             name="volymAntal"

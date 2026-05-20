@@ -39,6 +39,10 @@ public class IssueTypeNodeDto extends StructureNodeDto implements DataTransferOb
     private List<ElementDto> assignedElements;
     @NotNull
     private Integer index;
+    private String underseriesignum;
+    private String innehall;
+    private java.util.Date handlingarFran;
+    private java.util.Date handlingarTill;
 
     public Integer getIndex() {
         return index == null ? 0 : index;
@@ -64,6 +68,10 @@ public class IssueTypeNodeDto extends StructureNodeDto implements DataTransferOb
                 .uuid(getUuid())
                 .index(getIndex())
                 .localPath(getLocalPath())
+                .underseriesignum(getUnderseriesignum())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelationDto::map).collect(Collectors.toList()))
                 .assignedElements(getAssignedElements() == null ? new ArrayList<>() : getAssignedElements().stream().map(ElementDto::map).collect(Collectors.toList()))
                 .build();
@@ -86,6 +94,10 @@ public class IssueTypeNodeDto extends StructureNodeDto implements DataTransferOb
                 .number(getNumber())
                 .uuid(UUID.randomUUID())
                 .localPath(getLocalPath())
+                .underseriesignum(getUnderseriesignum())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
                 .relations(getRelations() == null ? new ArrayList<>() : getRelations().stream().map(NodeRelationDto::map).collect(Collectors.toList()))
                 .assignedElements(getAssignedElements() == null ? new ArrayList<>() : getAssignedElements().stream().map(ElementDto::map).collect(Collectors.toList()))
                 .build();

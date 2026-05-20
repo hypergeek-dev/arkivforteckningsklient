@@ -53,6 +53,14 @@ public class IssueTypeNodeEntity implements Serializable, EntityI, EntityMapper<
     private String number;
     private Integer index;
     private UUID uuid;
+    @Column(name = "underseriesignum")
+    private String underseriesignum;
+    @Column(name = "innehall")
+    private String innehall;
+    @Column(name = "handlingar_fran")
+    private Date handlingarFran;
+    @Column(name = "handlingar_till")
+    private Date handlingarTill;
 
     @PrePersist
     void prePersist() {
@@ -108,6 +116,10 @@ public class IssueTypeNodeEntity implements Serializable, EntityI, EntityMapper<
                 .number(getNumber())
                 .uuid(getUuid())
                 .index(getIndex())
+                .underseriesignum(getUnderseriesignum())
+                .innehall(getInnehall())
+                .handlingarFran(getHandlingarFran())
+                .handlingarTill(getHandlingarTill())
                 .build();
     }
 }

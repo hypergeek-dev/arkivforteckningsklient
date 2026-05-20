@@ -9,4 +9,5 @@ public class ImportResultDto {
     private boolean success;
     private String message;
     private String importedCsnodeId;
+    private int nodesFailed;
 }
