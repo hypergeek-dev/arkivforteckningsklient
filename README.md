@@ -77,7 +77,7 @@ Spåra alla ändringar i förteckningen med tidsstämpel och användare.
 | ARKIVARIE | administrera, visa, importera |
 | LASARE | visa |
 
-I lokal/utvecklingsläge (`environment=local`) tillåts alla åtgärder utan IAM (mock-läge).
+I lokal/utvecklingsläge (`environment=local`) tillåts alla åtgärder utan IAM (mock-läge). Standardvärdet är `production` — sätt `ENVIRONMENT=local` explicit i din lokala miljö.
 
 ---
 
@@ -122,6 +122,10 @@ I lokal/utvecklingsläge (`environment=local`) tillåts alla åtgärder utan IAM
    ```
 
 > **Standardinloggning (ändra omedelbart):** `admin` / `changeme`
+>
+> Applikationen vägrar starta i icke-lokal miljö om `admin`-kontots lösenord fortfarande är `changeme`. Byt lösenord direkt efter första installation.
+>
+> Swagger UI är avstängt som standard. Aktivera med `SWAGGER_ENABLED=true` i `.env` vid behov (rekommenderas inte i produktion).
 
 </details>
 
