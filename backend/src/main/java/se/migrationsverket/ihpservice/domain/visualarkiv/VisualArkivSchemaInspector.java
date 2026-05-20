@@ -115,12 +115,19 @@ public class VisualArkivSchemaInspector {
     }
 
     private long estimateRowCount(Connection conn, String schema, String tableName) {
-        String fqn = schema != null ? "[" + schema + "].[" + tableName + "]" : "[" + tableName + "]";
-        try (PreparedStatement ps = conn.prepareStatement("SELECT COUNT(1) FROM " + fqn);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getLong(1);
+        // sys.partitions gives a near-instant row estimate without a full table scan.
+        String sql = "SELECT ISNULL(SUM(p.rows), -1) FROM sys.partitions p " +
+                     "JOIN sys.objects o ON p.object_id = o.object_id " +
+                     "JOIN sys.schemas s ON o.schema_id = s.schema_id " +
+                     "WHERE o.name = ? AND s.name = ? AND p.index_id IN (0, 1)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, tableName);
+            ps.setString(2, schema != null ? schema : "dbo");
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getLong(1);
+            }
         } catch (SQLException e) {
-            log.debug("Could not count rows in {}: {}", fqn, e.getMessage());
+            log.debug("Could not estimate rows for {}: {}", tableName, e.getMessage());
         }
         return -1;
     }

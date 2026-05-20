@@ -70,12 +70,16 @@ public class VisualArkivExtractService {
     }
 
     /**
-     * Executes an arbitrary read-only query. Only SELECT statements are permitted.
-     * Callers must validate the SQL before calling this method.
+     * Executes a read-only query. Only single SELECT statements are permitted.
+     * Package-private — not exposed via any REST endpoint.
      */
-    public List<Map<String, Object>> extractQuery(String selectSql) throws SQLException {
-        if (!selectSql.trim().toUpperCase().startsWith("SELECT")) {
+    List<Map<String, Object>> extractQuery(String selectSql) throws SQLException {
+        String trimmed = selectSql.trim();
+        if (!trimmed.toUpperCase().startsWith("SELECT")) {
             throw new IllegalArgumentException("Only SELECT queries are permitted on the Visual Arkiv source");
+        }
+        if (trimmed.contains(";")) {
+            throw new IllegalArgumentException("Multi-statement queries are not permitted");
         }
 
         List<Map<String, Object>> rows = new ArrayList<>();

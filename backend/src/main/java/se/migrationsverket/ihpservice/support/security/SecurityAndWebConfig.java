@@ -1,27 +1,21 @@
 package se.migrationsverket.ihpservice.support.security;
 
-import jakarta.servlet.DispatcherType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import se.migrationsverket.ihpservice.support.ApplicationStatics;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Configuration
 @PropertySource("classpath:application.properties")
 public class SecurityAndWebConfig implements WebMvcConfigurer {
 
-    private static int ORDER = 2;
+    private static final int ORDER = 2;
 
     @Value("${defaultUser}")
     String defaultUser;
@@ -61,29 +55,4 @@ public class SecurityAndWebConfig implements WebMvcConfigurer {
     }
 
 
-    @Bean
-    @ConditionalOnExpression("!'${environment}'.equals('local')")
-    public FilterRegistrationBean centralServiceProviderFilter() {
-
-        Map<String, String> initParameters = new HashMap<>();
-        // Åtkomst till dessa URL:er ska släppas igenom även om man inte är inloggad.
-        initParameters.put("application.name", ApplicationStatics.NAME);
-        initParameters.put("uriWhitelist",
-                "/info,/health,/error,/static/*,/,/rest/v1/*,*/swagger-ui/*,/swagger-ui.html,/swagger-ui.html/*,/webjars/*,/swagger-resources,/swagger-resources/*,/v2/*,/actuator/prometheus,/favicon.ico,/manifest.json,/actuator/*,/**/actuator/**,/actuator/,/ihpappbackend/actuator/,/actuator/*,/ihpappbackend/actuator/*,/ihpappbackend/v3/*,/v3/*,/ihpappbackend/rest/v1/*");
-        // Dessa URL:er skyddas av CSPFilter.
-        return filterRegistrationBean( initParameters, new String[]{"/*"});
-    }
-
-
-    private FilterRegistrationBean filterRegistrationBean( Map<String, String> initParameters,
-                                                          String[] urlPatterns) {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-
-        registration.setInitParameters(initParameters);
-        registration.setEnabled(true);
-        registration.setOrder(ORDER);
-        registration.addUrlPatterns(urlPatterns);
-        registration.setDispatcherTypes(DispatcherType.ERROR, DispatcherType.FORWARD, DispatcherType.REQUEST);
-        return registration;
-    }
 }

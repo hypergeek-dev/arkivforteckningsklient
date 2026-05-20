@@ -15,6 +15,8 @@ import se.migrationsverket.ihpservice.domain.authorization.AuthorizationStatics;
 import se.migrationsverket.ihpservice.domain.services.*;
 import se.migrationsverket.ihpservice.support.events.EventAction;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,6 +43,7 @@ public class ImportController {
      *
      * Returns the id of the created ClassificationStructure (csnode).
      */
+    @Transactional(rollbackFor = Exception.class)
     @PostMapping(value = "/import/arkivforteckning", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImportResultDto> importArkivforteckning(
             @RequestParam("file") MultipartFile file,
@@ -49,6 +52,11 @@ public class ImportController {
         if (!secureWebrequestService.actionAllowed("arkivforteckning", AuthorizationStatics.ACTION_IMPORTERA)) {
             return ResponseEntity.status(403)
                     .body(ImportResultDto.builder().success(false).message("Ej behörig att importera.").build());
+        }
+
+        if (file.getSize() > 10 * 1024 * 1024L) {
+            return ResponseEntity.status(413)
+                    .body(ImportResultDto.builder().success(false).message("Filen är för stor (max 10 MB).").build());
         }
 
         try {
@@ -69,7 +77,6 @@ public class ImportController {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             int created = 0;
-            int failed = 0;
             String importedCsNodeId = null;
 
             for (Map<String, Object> node : nodes) {
@@ -154,16 +161,16 @@ public class ImportController {
                     }
                 } catch (Exception e) {
                     log.error("Fel vid skapande av nod {} (typ={}): {}", oldId, nodeName, e.getMessage());
-                    failed++;
+                    throw new RuntimeException(
+                        "Import avbruten vid nod " + oldId + " (typ=" + nodeName + "): " + e.getMessage(), e);
                 }
             }
 
-            boolean partialFailure = failed > 0;
             return ResponseEntity.ok(ImportResultDto.builder()
-                    .success(!partialFailure || created > 0)
-                    .message(String.format("Import klar. %d noder skapades, %d misslyckades.", created, failed))
+                    .success(true)
+                    .message(String.format("Import klar. %d noder skapades.", created))
                     .importedCsnodeId(importedCsNodeId)
-                    .nodesFailed(failed)
+                    .nodesFailed(0)
                     .build());
 
         } catch (Exception e) {

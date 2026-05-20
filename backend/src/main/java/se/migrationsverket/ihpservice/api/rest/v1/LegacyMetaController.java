@@ -1,6 +1,5 @@
 package se.migrationsverket.ihpservice.api.rest.v1;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.Map;
  * Uses a direct JDBC query instead of the entity/domain/DTO stack to avoid
  * threading read-only audit fields through the full mapping chain.
  */
-@Slf4j
 @RestController
 @RequestMapping("/rest/app")
 public class LegacyMetaController {
@@ -50,28 +48,22 @@ public class LegacyMetaController {
             return ResponseEntity.badRequest().build();
         }
 
-        try {
-            var rows = jdbc.query(
-                "SELECT legacy_id, legacy_source_system, legacy_table, " +
-                "       imported_at, import_batch_id::text " +
-                "FROM ihp." + table + " WHERE id = :id AND legacy_source_system IS NOT NULL",
-                Map.of("id", id),
-                (rs, rowNum) -> new LegacyMetaDto(
-                    rs.getString("legacy_id"),
-                    rs.getString("legacy_source_system"),
-                    rs.getString("legacy_table"),
-                    rs.getString("imported_at"),
-                    rs.getString("import_batch_id")
-                )
-            );
+        var rows = jdbc.query(
+            "SELECT legacy_id, legacy_source_system, legacy_table, " +
+            "       imported_at, import_batch_id::text " +
+            "FROM ihp." + table + " WHERE id = :id AND legacy_source_system IS NOT NULL",
+            Map.of("id", id),
+            (rs, rowNum) -> new LegacyMetaDto(
+                rs.getString("legacy_id"),
+                rs.getString("legacy_source_system"),
+                rs.getString("legacy_table"),
+                rs.getString("imported_at"),
+                rs.getString("import_batch_id")
+            )
+        );
 
-            if (rows.isEmpty()) return ResponseEntity.noContent().build();
-            return ResponseEntity.ok(rows.get(0));
-
-        } catch (Exception e) {
-            log.warn("Could not fetch legacy meta for {}/{}: {}", nodeType, id, e.getMessage());
-            return ResponseEntity.noContent().build();
-        }
+        if (rows.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(rows.get(0));
     }
 
     public record LegacyMetaDto(

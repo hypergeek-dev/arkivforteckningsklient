@@ -28,12 +28,14 @@ public class VisualArkivProperties {
     private String username;
     private String password;
     private String instance;
+    /** Set true only when the SQL Server uses a self-signed certificate. Default false. */
+    private boolean trustServerCertificate = false;
 
     public String buildJdbcUrl() {
         StringBuilder url = new StringBuilder("jdbc:sqlserver://")
             .append(host).append(":").append(port)
             .append(";databaseName=").append(database)
-            .append(";trustServerCertificate=true")
+            .append(";trustServerCertificate=").append(trustServerCertificate)
             .append(";loginTimeout=30");
         if (instance != null && !instance.isBlank()) {
             url.append(";instanceName=").append(instance);

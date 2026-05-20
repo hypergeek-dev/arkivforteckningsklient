@@ -104,6 +104,9 @@ public class VisualArkivTransformService {
             }
         }
 
+        // Preserve native types for non-varchar columns; toString() would cause type mismatches.
+        if (raw instanceof Number || raw instanceof Boolean) return raw;
+
         return raw.toString().trim();
     }
 
