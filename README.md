@@ -82,24 +82,19 @@ I lokal/utvecklingsläge tillåts alla åtgärder utan IAM (mock-läge).
    cd arkivforteckningsklient
    ```
 
-2. Starta med Docker Compose:
+2. Skapa en `.env`-fil med hemligheter (kopiera från mallen):
+   ```sh
+   cp .env.example .env
+   # Redigera .env och sätt egna lösenord
+   ```
+
+3. Starta med Docker Compose:
    ```sh
    docker compose up -d
    ```
 
-3. Kör databassripten i ordning mot databasen (skapa `ihp`-schemat och tabellerna):
-   ```sh
-   psql -U ihpuser -d ihp -f databas/a-ihp-schemaDB.sql
-   psql -U ihpuser -d ihp -f databas/b-ihp-sequences.sql
-   psql -U ihpuser -d ihp -f databas/c-ihp-tables.sql
-   psql -U ihpuser -d ihp -f databas/d-ihp-views.sql
-   psql -U ihpuser -d ihp -f databas/e-ihp-materializedviews.sql
-   psql -U ihpuser -d ihp -f databas/f-ihp-functions.sql
-   psql -U ihpuser -d ihp -f databas/g-ihp-triggerfunctions.sql
-   psql -U ihpuser -d ihp -f databas/h-elements_datatype.sql
-   psql -U ihpuser -d ihp -f databas/i-exampledata.sql
-   psql -U ihpuser -d ihp -f databas/j-arkiv-extension.sql
-   ```
+   Databasen skapas och migreras automatiskt av **Flyway** när backend startar.
+   Inga manuella `psql`-kommandon behövs.
 
 4. Öppna applikationen:
    ```
@@ -111,14 +106,20 @@ I lokal/utvecklingsläge tillåts alla åtgärder utan IAM (mock-läge).
    http://localhost:8082/
    ```
 
+> **Standardinloggning (ändra omedelbart):** `admin` / `changeme`
+
 </details>
 
-<details><summary><b>Uppgradering – befintlig IHPv-installation</b></summary>
+<details><summary><b>Uppgradering – befintlig installation</b></summary>
 
-Kör enbart migrationsskriptet för arkivförteckningsfunktionen. Det är idempotent och säkert att köra på en befintlig databas:
+Flyway detekterar automatiskt vilka migrationer som saknas och kör enbart dem.
+Det krävs inga manuella SQL-kommandon vid uppgradering.
 
+Om databasen är äldre än Flyway-versionen (initierades med `psql`-skripten):
 ```sh
-psql -U ihpuser -d ihp -f databas/j-arkiv-extension.sql
+# Baslinjea Flyway mot den befintliga databasen (körs en gång)
+docker compose exec backend java -jar app.jar \
+  -Dflyway.baselineOnMigrate=true -Dflyway.baselineVersion=1
 ```
 
 Driftsätt sedan de nya Docker-imagen:
@@ -142,7 +143,7 @@ docker compose up -d --no-deps backend frontend
 
 Backend: Java 17, Spring Boot 3.5, Spring Data JPA, Hibernate, Lombok.  
 Frontend: React 18, TypeScript, Redux Toolkit + Redux-Saga, MUI, Webpack.  
-Databas: PostgreSQL med manuellt hanterat schema (Flyway/Liquibase ej konfigurerat).
+Databas: PostgreSQL med Flyway-hanterade versionsmigrationer (V1–V5).
 
 ---
 
@@ -150,6 +151,6 @@ Databas: PostgreSQL med manuellt hanterat schema (Flyway/Liquibase ej konfigurer
 
 Detta projekt är en fork av [migrationsverket/IHPv](https://github.com/migrationsverket/IHPv), publicerat under **CC0 1.0 Universal** (ingen upphovsrätt förbehålls).
 
-Förändringar i denna fork: terminologiomskrivning till arkivredovisning, arkivspecifika metadatafält, seriesignum-visning, RA-FS-stöd i regelbank, rapport- och importfunktion, databasmigration `j-arkiv-extension.sql`.
+Förändringar i denna fork: terminologiomskrivning till arkivredovisning, arkivspecifika metadatafält, seriesignum-visning, RA-FS-stöd i regelbank, rapport- och importfunktion, Flyway-versionsmigrationer (V1–V5), JDBC-baserad Spring Security med rollmodell, Visual Arkiv ETL-pipeline (inspect/prepare/execute/report).
 
 Se [LICENSE.txt](LICENSE.txt) för fullständig licenstext.
