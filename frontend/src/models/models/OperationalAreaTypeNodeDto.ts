@@ -30,4 +30,9 @@ export type OperationalAreaTypeNodeDto = {
     decisionDate?: string;
     parentStatus?: 'utkast' | 'klar' | 'godkand' | 'faststalld';
     relations?: Array<NodeRelationDto>;
+    orgNummer?: string;
+    arkivansvarig?: string;
+    adress?: string;
+    verksamhetsperiodStart?: string;
+    verksamhetsperiodSlut?: string;
 };

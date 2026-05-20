@@ -36,4 +36,9 @@ export type DocumentTypeNodeDto = {
     assignedRules: Array<RuleDto>;
     assignedElements: Array<ElementDto>;
     index: number;
+    volymnum?: string;
+    forvaringsplats?: string;
+    formatBeskriv?: string;
+    tillganglighet?: string;
+    omfang?: string;
 };

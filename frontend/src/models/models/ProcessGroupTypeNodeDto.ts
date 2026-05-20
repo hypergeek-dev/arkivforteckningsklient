@@ -29,4 +29,9 @@ export type ProcessGroupTypeNodeDto = {
     decisionDate?: string;
     parentStatus?: 'utkast' | 'klar' | 'godkand' | 'faststalld';
     relations?: Array<NodeRelationDto>;
+    arkivIdBeteckning?: string;
+    forvaringsplats?: string;
+    handlingarFran?: string;
+    handlingarTill?: string;
+    volymAntal?: number;
 };

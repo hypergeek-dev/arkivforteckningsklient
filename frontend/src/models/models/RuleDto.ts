@@ -17,4 +17,7 @@ export type RuleDto = {
     createdAt?: string;
     updatedAt?: string;
     uuid?: string;
+    raFsReferens?: string;
+    gallringsgrund?: string;
+    atgard?: string;
 };

@@ -29,4 +29,11 @@ export type ProcessTypeNodeDto = {
     number?: string;
     parentStatus?: 'utkast' | 'klar' | 'godkand' | 'faststalld';
     relations?: Array<NodeRelationDto>;
+    seriesignum?: string;
+    serieRubrik?: string;
+    forvaringsplats?: string;
+    innehall?: string;
+    handlingarFran?: string;
+    handlingarTill?: string;
+    omfang?: string;
 };
