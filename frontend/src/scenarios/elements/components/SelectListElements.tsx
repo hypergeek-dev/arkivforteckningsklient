@@ -70,12 +70,12 @@ const SelectListDocumentTypes: React.FC<SelectListElementsProps> = ({
       spacing={1}
     >
       <Typography sx={{ textAlign: 'center' }} variant="h2">
-        Utöka handlingstypen
+        Utöka volymen
       </Typography>
       {selectedElements.filter((e) => e.datatype === docType?.id).length >
         0 && (
         <Typography sx={{ textAlign: 'center' }} variant="h4">
-          Vald handlingstyp
+          Vald volym
         </Typography>
       )}
 
@@ -160,8 +160,8 @@ const SelectListElements: React.FC<SelectListElementsProps> = ({
   const docType = dataTypes.find((d) => d.type === 'DOCUMENT_TYPE');
 
   const getLabel = () => {
-    if (nodeName === 'documentnode') return 'handlingstypen';
-    if (nodeName === 'issuenode') return 'ärendetypen';
+    if (nodeName === 'documentnode') return 'volymen';
+    if (nodeName === 'issuenode') return 'underserien';
     return '';
   };
 

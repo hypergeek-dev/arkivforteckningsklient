@@ -88,7 +88,7 @@ const ElementListItem: React.FC<ElementListItemProps> = ({
           <Typography variant="body2" style={{ textTransform: 'capitalize' }}>
             <b>Gäller för: </b>
             {`${
-              element.nodeType === 'DOCUMENT' ? 'Handlingstyp' : 'Ärendetyp'
+              element.nodeType === 'DOCUMENT' ? 'Volym' : 'Underserie'
             }`}
           </Typography>
         )}

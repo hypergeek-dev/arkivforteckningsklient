@@ -81,10 +81,10 @@ const CreateNode: React.FC = () => {
           parent && (
             <Box marginX="auto" marginTop="1rem">
               <RadioGroup
-                aria-label="Process eller processgrupp"
+                aria-label="Serie eller arkiv"
                 defaultValue="processnode"
                 value={nodeName}
-                name="processgrupp"
+                name="arkiv-serie"
                 sx={{ flexDirection: 'row' }}
                 onChange={(e: any) => {
                   dispatch(
@@ -98,12 +98,12 @@ const CreateNode: React.FC = () => {
                 <FormControlLabel
                   value="processnode"
                   control={<Radio size="small" />}
-                  label="Skapa process"
+                  label="Skapa serie"
                 />
                 <FormControlLabel
                   value="pgnode"
                   control={<Radio size="small" />}
-                  label={'Skapa processgrupp'}
+                  label={'Skapa arkiv'}
                 />
               </RadioGroup>
             </Box>

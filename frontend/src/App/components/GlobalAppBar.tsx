@@ -203,9 +203,9 @@ const GlobalAppBar: React.FC<Props> = ({ children }) => {
             <MenuIcon />
           </IconButton>
           {isDark ? (
-            <img src={whiteLogo} height={48} alt="Migrationsverkets logotyp" />
+            <img src={whiteLogo} height={48} alt="Arkivförteckningsklientens logotyp" />
           ) : (
-            <img src={blackLogo} height={48} alt="Migrationsverkets logotyp" />
+            <img src={blackLogo} height={48} alt="Arkivförteckningsklientens logotyp" />
           )}
           <small></small>
         </Toolbar>

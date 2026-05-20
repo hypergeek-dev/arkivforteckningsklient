@@ -78,13 +78,13 @@ const SearchBar = () => {
                 </IconButton>
               </>
             )}
-            <InputLabel htmlFor="Klassificeringsstruktur-id" id="select-for-ks">
-              <b>Klassificeringsstruktur</b>
+            <InputLabel htmlFor="Arkivförteckning-id" id="select-for-ks">
+              <b>Arkivförteckning</b>
             </InputLabel>
           </Box>
 
           <Select
-            inputProps={{ id: 'Klassificeringsstruktur-id' }}
+            inputProps={{ id: 'Arkivförteckning-id' }}
             sx={(theme) => ({
               width: '100%',
               maxWidth: '240px',

@@ -92,13 +92,13 @@ export default function EventOverview() {
         >
           <StatisticCard
             label={
-              filter === 'statusMovement' ? 'Klarmarkerat' : 'Handlingstyper'
+              filter === 'statusMovement' ? 'Klarmarkerat' : 'Volymer'
             }
             onClick={(n) => dispatch(actions.showFiltredList(n))}
             sortType={filter === 'statusMovement' ? 'klar' : 'documentnode'}
           />
           <StatisticCard
-            label={filter === 'statusMovement' ? 'Godkänt' : 'Ärendetyper'}
+            label={filter === 'statusMovement' ? 'Godkänt' : 'Underserier'}
             onClick={(n) => dispatch(actions.showFiltredList(n))}
             sortType={filter === 'statusMovement' ? 'godkand' : 'issuenode'}
           />
@@ -111,7 +111,7 @@ export default function EventOverview() {
           />
           <StatisticCard
             label={
-              filter === 'statusMovement' ? 'Fastställt' : 'Processgrupper'
+              filter === 'statusMovement' ? 'Fastställt' : 'Arkiv'
             }
             onClick={(n) => dispatch(actions.showFiltredList(n))}
             sortType={filter === 'statusMovement' ? 'faststalld' : 'pgnode'}

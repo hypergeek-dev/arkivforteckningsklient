@@ -34,8 +34,8 @@ import ResultList from './components/ResultList';
 import { selectedValues } from './constants';
 
 const filterValues: FilterValue<ElementFilter>[] = [
-  { value: 'issues', label: 'Ärendetyper' },
-  { value: 'documents', label: 'Handlingstyper' },
+  { value: 'issues', label: 'Underserier' },
+  { value: 'documents', label: 'Volymer' },
   { value: 'elements', label: 'Eget element' },
   { value: 'documenttypes', label: 'Dokumenttyp' },
   { value: 'draft', label: 'Utkast' },

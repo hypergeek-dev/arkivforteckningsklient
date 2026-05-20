@@ -78,57 +78,57 @@ export const nodeTypeMapper = (nodeName: NodeName): NodeMap => {
     case 'csnode':
       return {
         path: 'ks',
-        label: 'Verksamhetsområden',
-        name: 'Klassificeringsstruktur',
+        label: 'Arkivbildare',
+        name: 'Arkivförteckning',
         avatarStyle: {
           backgroundColor: 'white',
           color: 'black',
           border: '1px solid black',
         },
-        avatarText: 'KS',
+        avatarText: 'AF',
       };
     case 'documentnode':
       return {
         path: 'document',
-        name: 'Handlingstyp',
+        name: 'Volym',
         avatarStyle: { backgroundColor: '#FFC107', color: 'black' },
-        label: 'Informationsobjekttyp',
-        avatarText: 'HT',
+        label: 'Volym',
+        avatarText: 'V',
       };
     case 'issuenode':
       return {
         path: 'issue',
-        name: 'Ärendetyp',
+        name: 'Underserie',
         avatarStyle: {
           backgroundColor: '#4941CF',
           color: 'white',
         },
-        label: 'Handlingstyp',
-        avatarText: 'ÄT',
+        label: 'Volym',
+        avatarText: 'US',
       };
     case 'oanode':
       return {
         path: 'vo',
-        label: 'Process, Processgrupp',
-        name: 'Verksamhetsområde',
+        label: 'Serie, Arkiv',
+        name: 'Arkivbildare',
         avatarStyle: { backgroundColor: '#8b1327', color: 'white' },
-        avatarText: 'VO',
+        avatarText: 'AB',
       };
     case 'pgnode':
       return {
         path: 'pg',
-        label: 'Process, Processgrupp',
-        name: 'Processgrupp',
+        label: 'Serie, Arkiv',
+        name: 'Arkiv',
         avatarStyle: { backgroundColor: '#83AFC9', color: 'black' },
-        avatarText: 'PG',
+        avatarText: 'AR',
       };
     case 'processnode':
       return {
         path: 'process',
-        name: 'Process',
+        name: 'Serie',
         avatarStyle: { backgroundColor: '#FD084A', color: 'black' },
-        label: 'Ärendetyp',
-        avatarText: 'P',
+        label: 'Underserie',
+        avatarText: 'S',
       };
 
     default:

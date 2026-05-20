@@ -260,9 +260,9 @@ const RelationsCardContent: React.FC<Props> = ({
    */
 
   function resolveTitle(nodeName: NodeName) {
-    if (nodeName === 'pgnode') return 'processgrupper eller processer';
-    if (nodeName === 'processnode') return 'processer eller processgrupper';
-    if (nodeName === 'issuenode') return 'ärendetyper';
+    if (nodeName === 'pgnode') return 'arkiv eller serier';
+    if (nodeName === 'processnode') return 'serier eller arkiv';
+    if (nodeName === 'issuenode') return 'underserier';
   }
 
   async function handleSelect(

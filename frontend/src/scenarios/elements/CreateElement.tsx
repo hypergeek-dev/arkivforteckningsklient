@@ -195,13 +195,13 @@ function ElementFields() {
               <FormControlLabel
                 value="ISSUE"
                 control={<Radio size="small" />}
-                label="Ärendetyp"
+                label="Underserie"
               />
 
               <FormControlLabel
                 value="DOCUMENT"
                 control={<Radio size="small" />}
-                label="Handlingstyp"
+                label="Volym"
               />
             </RadioGroup>
           </FormControl>

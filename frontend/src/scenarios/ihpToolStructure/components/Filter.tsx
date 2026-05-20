@@ -45,7 +45,7 @@ const Filter: React.FC = () => {
         <Grid2>
           <ChipSelect
             handleChipSelect={() => handleChipSelet('oanode')}
-            label="Verksamhetsområde"
+            label="Arkivbildare"
             active={nodeNames.includes('oanode')}
           />
         </Grid2>
@@ -53,7 +53,7 @@ const Filter: React.FC = () => {
           <ChipSelect
             handleChipSelect={() => handleChipSelet('pgnode')}
             active={nodeNames.includes('pgnode')}
-            label="Processgrupp"
+            label="Arkiv"
           />
         </Grid2>
         <Grid2>
@@ -67,14 +67,14 @@ const Filter: React.FC = () => {
           <ChipSelect
             handleChipSelect={() => handleChipSelet('issuenode')}
             active={nodeNames.includes('issuenode')}
-            label="Ärendetyp"
+            label="Underserie"
           />
         </Grid2>
         <Grid2>
           <ChipSelect
             handleChipSelect={() => handleChipSelet('documentnode')}
             active={nodeNames.includes('documentnode')}
-            label="Handlingstyp"
+            label="Volym"
           />
         </Grid2>
         <Grid2>

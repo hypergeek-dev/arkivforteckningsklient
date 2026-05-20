@@ -25,7 +25,7 @@ const EditMatter: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
     <DefaultFormLayout
       node={data}
       disabled={disabled}
-      header={`Benämning ärendetyp ${disabled ? '' : '*'}`}
+      header={`Benämning underserie ${disabled ? '' : '*'}`}
       onChange={onChangeHandler}
     >
       <FormCard sx={{ width: CARD_WIDTH, height: CARD_HEIGHT }}>
@@ -33,7 +33,7 @@ const EditMatter: React.FC<Props> = ({ data, onChangeHandler, disabled }) => {
           name="remark"
           onChangeHandler={onChangeHandler}
           value={data.remark ?? ''}
-          title="Anmärkning ärendetyp"
+          title="Anmärkning underserie"
           multiline
           rows={12}
           disabled={disabled}

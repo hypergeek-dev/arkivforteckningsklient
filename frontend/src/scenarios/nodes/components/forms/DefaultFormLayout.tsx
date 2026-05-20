@@ -63,27 +63,27 @@ const DefaultFormLayout: React.FC<Props> = ({
     let result = '';
     switch (nodename) {
       case 'csnode':
-        result = ' Klassificeringsstruktur';
+        result = ' Arkivförteckning';
 
         break;
       case 'oanode':
-        result = ' Verksamhetsområde';
+        result = ' Arkivbildare';
 
         break;
       case 'pgnode':
-        result = ' Processgrupp';
+        result = ' Arkiv';
 
         break;
       case 'processnode':
-        result = ' Process';
+        result = ' Serie';
 
         break;
       case 'issuenode':
-        result = ' Ärendetyp';
+        result = ' Underserie';
 
         break;
       case 'documentnode':
-        result = ' Handlingstyp';
+        result = ' Volym';
 
         break;
       default:
