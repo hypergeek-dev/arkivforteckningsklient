@@ -17,6 +17,7 @@ import {
   shortenText,
 } from 'Common/helper';
 import { CommonNode, NodeName, Status } from 'Models/typed';
+import { ProcessTypeNodeDto } from 'Models/index';
 import NodetypeIcon from 'Scenarios/components/NodetypeIcon';
 import IHPCardBody from 'Scenarios/components/ihpcard/IHPCardBody';
 import IHPCardMenu from 'Scenarios/components/menu/IHPCardMenu';
@@ -55,6 +56,9 @@ const Row = memo(({ data, index, style }: RowProps) => {
   } = data;
   const node = flattenedData[index];
   const { id, nodeName, status, localPath, path, name } = node.data;
+  const seriesignum = nodeName === 'processnode'
+    ? (node.data as ProcessTypeNodeDto).seriesignum
+    : undefined;
   const depth = path?.split('/') ?? [];
   const left = depth.length * 20;
 
@@ -171,9 +175,24 @@ const Row = memo(({ data, index, style }: RowProps) => {
               {node.data.nodeName !== 'csnode' && getParentCode(path, true)}
             </Typography>
           </Stack>
-          <Stack direction={'row'}>
+          <Stack direction={'row'} alignItems={'center'} spacing={1}>
+            {seriesignum && (
+              <Typography
+                sx={{
+                  paddingLeft: { xs: '10px', lg: 0 },
+                  fontFamily: 'monospace',
+                  backgroundColor: 'action.hover',
+                  borderRadius: '4px',
+                  px: '4px',
+                  whiteSpace: 'nowrap',
+                }}
+                variant="body2"
+              >
+                {seriesignum}
+              </Typography>
+            )}
             <Typography
-              sx={{ paddingLeft: { xs: '10px', lg: 0 } }}
+              sx={{ paddingLeft: seriesignum ? 0 : { xs: '10px', lg: 0 } }}
               variant="body1"
             >
               <b>{shortenText(name, 100)}</b>

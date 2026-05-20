@@ -1,6 +1,7 @@
-import { Grid2, Typography } from '@mui/material';
+import { Chip, Grid2, Typography } from '@mui/material';
 import { getParentCode, nodeTypeMapper } from 'Common/helper';
 import { CommonNode } from 'Models/typed';
+import { ProcessTypeNodeDto } from 'Models/index';
 import React from 'react';
 import NodetypeIcon from '../NodetypeIcon';
 import IHPCardMenu from '../menu/IHPCardMenu';
@@ -38,17 +39,23 @@ const IHPCardHead: React.FC<IHPCardHeadProps> = ({
         container
       >
         <Grid2>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <NodetypeIcon size="small" nodeName={node.nodeName} />
             <Typography
               variant="body1"
-              sx={{
-                paddingLeft: '6px',
-              }}
+              sx={{ paddingLeft: '6px' }}
             >
               {nodeTypeMapper(node.nodeName).name}{' '}
               {getParentCode(node.path, true)}
             </Typography>
+            {node.nodeName === 'processnode' &&
+              (node as ProcessTypeNodeDto).seriesignum && (
+                <Chip
+                  label={(node as ProcessTypeNodeDto).seriesignum}
+                  size="small"
+                  sx={{ fontFamily: 'monospace', fontWeight: 'bold' }}
+                />
+              )}
           </div>
         </Grid2>
 
