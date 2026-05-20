@@ -96,6 +96,11 @@ const webpackConfig = {
   module: {
     rules: [
       {
+        test: /\.m?js$/,
+        resolve: { fullySpecified: false },
+        include: /node_modules/,
+      },
+      {
         test: /\.(m?jsx?|tsx?|ts?)$/,
         exclude: /node_modules/,
         include: resolve(__dirname, 'src'),
