@@ -2,42 +2,15 @@ package se.migrationsverket.ihpservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Verifies that all Flyway migrations (V1–V5) apply cleanly to a fresh database.
- * Uses a real PostgreSQL container — no mocks.
+ * Uses a real PostgreSQL container via {@link AbstractContainerBaseTest}.
  */
-@SpringBootTest(properties = {
-    "environment=local",
-    "visual.arkiv.datasource.enabled=false",
-    "spring.flyway.enabled=true"
-})
-@Testcontainers
-class FlywayMigrationIT {
-
-    @Container
-    @SuppressWarnings("resource")
-    static PostgreSQLContainer<?> postgres =
-        new PostgreSQLContainer<>("postgres:15-alpine")
-            .withDatabaseName("ihp")
-            .withUsername("ihp")
-            .withPassword("ihp");
-
-    @DynamicPropertySource
-    static void configureDataSource(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url",     postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
+class FlywayMigrationIT extends AbstractContainerBaseTest {
 
     @Autowired
     JdbcTemplate jdbc;

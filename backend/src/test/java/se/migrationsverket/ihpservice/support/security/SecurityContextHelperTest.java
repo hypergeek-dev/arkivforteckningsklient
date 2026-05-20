@@ -35,6 +35,7 @@ class SecurityContextHelperTest {
         authenticate("ROLE_ARKIVARIE");
         assertTrue(helper.isAllowed("visa", res));
         assertTrue(helper.isAllowed("administrera", res));
+        assertTrue(helper.isAllowed("importera", res));
         assertFalse(helper.isAllowed("faststalla", res));
     }
 

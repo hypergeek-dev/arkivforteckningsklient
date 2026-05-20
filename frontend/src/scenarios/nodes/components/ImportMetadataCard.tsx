@@ -36,7 +36,7 @@ const ImportMetadataCard: React.FC<Props> = ({ nodeType, id }) => {
 
   useEffect(() => {
     if (!id || id === '-1') return;
-    fetch(`/rest/app/${nodeType}/${id}/legacy-meta`)
+    fetch(`/rest/app/${nodeType}/${id}/legacy-meta`, { credentials: 'include' })
       .then((res) => {
         if (res.status === 204 || !res.ok) return null;
         return res.json() as Promise<LegacyMeta>;
