@@ -2,6 +2,7 @@ package se.migrationsverket.ihpservice.api.rest.v1;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,7 @@ import java.util.*;
  * Workflow:
  *   1. POST /inspect         — inspect source schema (returns table/column metadata)
  *   2. POST /prepare         — extract + transform; returns dry-run report + confirmationToken
- *   3. POST /execute?token=  — validate token, extract + transform + load; returns final report
+ *   3. POST /execute?token=  — validate token atomically, extract + transform + load; returns final report
  *   4. GET  /report/{id}     — fetch report for any past batch
  *
  * Only active when visual.arkiv.datasource.enabled=true.
@@ -38,6 +39,9 @@ public class VisualArkivImportController {
     private final ImportBatchRepository batchRepository;
     private final VisualArkivProperties properties;
 
+    @Value("${defaultUser:devuser}")
+    private String defaultUser;
+
     /** Step 1 — inspect the Visual Arkiv source schema. */
     @PostMapping("/inspect")
     public ResponseEntity<?> inspect() {
@@ -53,12 +57,11 @@ public class VisualArkivImportController {
 
     /**
      * Step 2 — dry run: extract and transform without writing any node rows.
+     * Saves the batch first to get a DB-generated UUID, then transforms with that id.
      * Returns an ImportReport whose confirmationToken must be passed to /execute.
      */
     @PostMapping("/prepare")
     public ResponseEntity<?> prepare(@RequestBody PrepareRequest request) {
-        UUID batchId = UUID.randomUUID();
-        UUID confirmationToken = UUID.randomUUID();
         Instant now = Instant.now();
         String operator = resolveOperator();
 
@@ -71,8 +74,20 @@ public class VisualArkivImportController {
                 maxRows
             );
 
+            // Save a stub batch first to get the DB-generated UUID; avoids pre-assigning IDs.
+            ImportBatch batch = batchRepository.save(ImportBatch.builder()
+                .sourceType("visual_arkiv")
+                .sourceDatabase(properties.getDatabase())
+                .sourceHost(properties.getHost())
+                .startedAt(now)
+                .status(ImportBatch.Status.DRY_RUN_COMPLETE)
+                .dryRun(true)
+                .operator(operator)
+                .recordsRead(sourceRows.size())
+                .build());
+
             List<VisualArkivTransformService.TransformedRow> transformed =
-                transformer.transform(sourceRows, request.mapping(), batchId);
+                transformer.transform(sourceRows, request.mapping(), batch.getId());
 
             List<String> warnings = collectWarnings(transformed);
             List<String> unmapped = collectUnmapped(transformed);
@@ -80,32 +95,21 @@ public class VisualArkivImportController {
                 .filter(r -> r.fields().containsKey("name") || r.fields().containsKey("legacy_id"))
                 .count();
 
-            ImportBatch batch = ImportBatch.builder()
-                .id(batchId)
-                .sourceType("visual_arkiv")
-                .sourceDatabase(properties.getDatabase())
-                .sourceHost(properties.getHost())
-                .startedAt(now)
-                .completedAt(Instant.now())
-                .status(ImportBatch.Status.DRY_RUN_COMPLETE.name())
-                .dryRun(true)
-                .operator(operator)
-                .recordsRead(sourceRows.size())
-                .recordsMapped(mappedCount)
-                .recordsImported(0)
-                .recordsSkipped(sourceRows.size() - transformed.size())
-                .recordsDuplicate(0)
-                .recordsFailed(0)
-                .warnings(warnings)
-                .errors(List.of())
-                .unmappedFields(unmapped)
-                .confirmationToken(confirmationToken)
-                .build();
+            batch.setCompletedAt(Instant.now());
+            batch.setRecordsMapped(mappedCount);
+            batch.setRecordsImported(0);
+            batch.setRecordsSkipped(sourceRows.size() - transformed.size());
+            batch.setRecordsDuplicate(0);
+            batch.setRecordsFailed(0);
+            batch.setWarnings(warnings);
+            batch.setErrors(List.of());
+            batch.setUnmappedFields(unmapped);
+            batch.setConfirmationToken(UUID.randomUUID());
             batchRepository.save(batch);
 
             ImportReport report = toReport(batch);
             log.info("Dry-run complete batchId={} read={} mapped={} warnings={}",
-                batchId, sourceRows.size(), mappedCount, warnings.size());
+                batch.getId(), sourceRows.size(), mappedCount, warnings.size());
             return ResponseEntity.ok(report);
 
         } catch (Exception e) {
@@ -117,23 +121,18 @@ public class VisualArkivImportController {
 
     /**
      * Step 3 — real import. Requires the confirmationToken from /prepare.
-     * Extracts fresh data from source, transforms, and loads into IHP tables.
+     * The token is invalidated atomically with a single UPDATE to prevent replay attacks.
      */
     @PostMapping("/execute")
     public ResponseEntity<?> execute(@RequestParam UUID confirmationToken,
                                      @RequestBody PrepareRequest request) {
-        Optional<ImportBatch> dryRunBatch = batchRepository.findByConfirmationToken(confirmationToken);
-        if (dryRunBatch.isEmpty()) {
+        // Atomically consume the token — 0 rows updated means already used or invalid.
+        int invalidated = batchRepository.invalidateToken(confirmationToken);
+        if (invalidated == 0) {
             return ResponseEntity.badRequest()
                 .body(Map.of("error", "Ogiltigt eller redan använt confirmationToken."));
         }
-        ImportBatch dry = dryRunBatch.get();
-        if (!dry.isDryRun() || !ImportBatch.Status.DRY_RUN_COMPLETE.name().equals(dry.getStatus())) {
-            return ResponseEntity.badRequest()
-                .body(Map.of("error", "Token avser inte en godkänd dry-run."));
-        }
 
-        UUID batchId = UUID.randomUUID();
         Instant now = Instant.now();
         String operator = resolveOperator();
         ImportBatch batch = null;
@@ -147,56 +146,49 @@ public class VisualArkivImportController {
                 maxRows
             );
 
-            List<VisualArkivTransformService.TransformedRow> transformed =
-                transformer.transform(sourceRows, request.mapping(), batchId);
-
-            List<String> warnings = collectWarnings(transformed);
-            List<String> unmapped = collectUnmapped(transformed);
-
-            batch = ImportBatch.builder()
-                .id(batchId)
+            // Save RUNNING batch first to get the DB-generated UUID.
+            batch = batchRepository.save(ImportBatch.builder()
                 .sourceType("visual_arkiv")
                 .sourceDatabase(properties.getDatabase())
                 .sourceHost(properties.getHost())
                 .startedAt(now)
-                .status(ImportBatch.Status.RUNNING.name())
+                .status(ImportBatch.Status.RUNNING)
                 .dryRun(false)
                 .operator(operator)
                 .recordsRead(sourceRows.size())
-                .recordsMapped(transformed.size())
-                .recordsImported(0)
-                .recordsSkipped(sourceRows.size() - transformed.size())
-                .recordsDuplicate(0)
-                .recordsFailed(0)
-                .warnings(warnings)
-                .errors(List.of())
-                .unmappedFields(unmapped)
-                .build();
-            batchRepository.save(batch);
+                .build());
 
-            // Invalidate the dry-run token so it cannot be reused
-            dry.setConfirmationToken(null);
-            dry.setStatus(ImportBatch.Status.COMPLETED.name());
-            batchRepository.save(dry);
+            List<VisualArkivTransformService.TransformedRow> transformed =
+                transformer.transform(sourceRows, request.mapping(), batch.getId());
+
+            List<String> warnings = collectWarnings(transformed);
+            List<String> unmapped = collectUnmapped(transformed);
+
+            batch.setRecordsMapped(transformed.size());
+            batch.setRecordsSkipped(sourceRows.size() - transformed.size());
+            batch.setWarnings(warnings);
+            batch.setErrors(List.of());
+            batch.setUnmappedFields(unmapped);
+            batchRepository.save(batch);
 
             VisualArkivLoadService.LoadResult result = loader.load(transformed, batch);
 
             batch.setCompletedAt(Instant.now());
             batch.setStatus(result.failed() == 0
-                ? ImportBatch.Status.COMPLETED.name()
-                : ImportBatch.Status.FAILED.name());
+                ? ImportBatch.Status.COMPLETED
+                : ImportBatch.Status.FAILED);
             batchRepository.save(batch);
 
             ImportReport report = toReport(batch);
             log.info("Import complete batchId={} imported={} duplicate={} failed={}",
-                batchId, result.imported(), result.duplicate(), result.failed());
+                batch.getId(), result.imported(), result.duplicate(), result.failed());
             return ResponseEntity.ok(report);
 
         } catch (Exception e) {
-            log.error("Execute (real import) failed batchId={}", batchId, e);
+            log.error("Execute (real import) failed", e);
             if (batch != null) {
                 batch.setCompletedAt(Instant.now());
-                batch.setStatus(ImportBatch.Status.FAILED.name());
+                batch.setStatus(ImportBatch.Status.FAILED);
                 batchRepository.save(batch);
             }
             return ResponseEntity.internalServerError()
@@ -218,7 +210,10 @@ public class VisualArkivImportController {
 
     private String resolveOperator() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth != null ? auth.getName() : "anon";
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
+            return auth.getName();
+        }
+        return defaultUser;
     }
 
     private List<String> collectWarnings(List<VisualArkivTransformService.TransformedRow> rows) {
@@ -240,7 +235,7 @@ public class VisualArkivImportController {
         return new ImportReport(
             b.getId(),
             b.isDryRun(),
-            b.getStatus(),
+            b.getStatus() != null ? b.getStatus().name() : null,
             b.getSourceType(),
             b.getSourceDatabase(),
             b.getRecordsRead(),

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +34,9 @@ public class VisualArkivLoadService {
 
     // These must never appear in an INSERT — either auto-assigned by DB or transform-only metadata
     private static final Set<String> EXCLUDED = Set.of("id", "target_type");
+
+    // Only lowercase letters, digits, and underscores — rejects any SQL injection attempt via column names
+    private static final Pattern SAFE_COLUMN = Pattern.compile("^[a-z_][a-z0-9_]{0,62}$");
 
     private final NamedParameterJdbcTemplate jdbc;
 
@@ -99,11 +103,16 @@ public class VisualArkivLoadService {
     }
 
     private String buildSql(String table, Map<String, Object> params) {
-        String cols = String.join(", ", params.keySet());
+        for (String col : params.keySet()) {
+            if (!SAFE_COLUMN.matcher(col).matches()) {
+                throw new IllegalArgumentException("Ogiltigt kolumnnamn avvisat: " + col);
+            }
+        }
+        String cols = params.keySet().stream().map(c -> '"' + c + '"').collect(Collectors.joining(", "));
         String vals = params.keySet().stream().map(k -> ":" + k).collect(Collectors.joining(", "));
         return "INSERT INTO ihp." + table + " (" + cols + ") VALUES (" + vals + ") " +
-               "ON CONFLICT (legacy_source_system, legacy_table, legacy_id) " +
-               "WHERE legacy_source_system IS NOT NULL DO NOTHING";
+               "ON CONFLICT (\"legacy_source_system\", \"legacy_table\", \"legacy_id\") " +
+               "WHERE \"legacy_source_system\" IS NOT NULL DO NOTHING";
     }
 
     public record LoadResult(int imported, int duplicate, int failed, List<String> errors) {}

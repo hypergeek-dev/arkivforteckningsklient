@@ -65,9 +65,6 @@ public class IhpSecurityConfig {
                     "/actuator/health/**",
                     "/actuator/prometheus",
                     "/actuator/info",
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**",
-                    "/swagger-ui.html",
                     "/error",
                     "/favicon.ico",
                     "/manifest.json"

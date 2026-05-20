@@ -38,8 +38,9 @@ public class ImportBatch {
     @Column(name = "completed_at")
     private Instant completedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private String status;
+    private Status status;
 
     @Column(name = "is_dry_run", nullable = false)
     private boolean dryRun;
