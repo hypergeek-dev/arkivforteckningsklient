@@ -81,6 +81,45 @@ I lokal/utvecklingsläge (`environment=local`) tillåts alla åtgärder utan IAM
 
 ---
 
+## Produktionsdriftsättning
+
+Två driftsättningsvägar finns — välj den som passar din infrastruktur.
+
+### Docker Compose (rekommenderat)
+
+```sh
+cp .env.production.example .env.production
+# Redigera .env.production och sätt starka lösenord
+docker compose -f docker-compose.prod.yml --env-file .env.production up -d
+```
+
+Applikationen startar på port 80. Sätt `LISTEN_HOST=127.0.0.1` och lägg en nginx i front för TLS.
+
+### Standalone — Java-jar + Nginx (Ubuntu/Debian)
+
+```sh
+# Bygg artefakter
+mvn -f backend/pom.xml package -DskipTests
+cp backend/target/spring-boot-app-*-exec.jar app.jar
+cd frontend && npm ci && npm run build && cd ..
+
+# Installera (kräver root/sudo)
+sudo bash scripts/install-linux.sh
+```
+
+Skriptet installerar Java 17, PostgreSQL och Nginx, skapar systemd-tjänst och nginx-konfiguration.
+
+### Windows Server
+
+```powershell
+# Kör som administratör
+.\scripts\install-windows.ps1
+```
+
+Se [docs/production-deployment.md](docs/production-deployment.md) för fullständiga instruktioner, säkerhetskopiering och uppgradering.
+
+---
+
 ## Kom igång
 
 ### Förutsättningar
