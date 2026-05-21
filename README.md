@@ -4,7 +4,7 @@
 
 # Förteckningsklient för Skånearkiv
 
-Webbaserat verktyg för att upprätta, förvalta och fastställa **arkivförteckningar** enligt svensk arkivredovisningsstandard. Verktyget är avsett för Skånearkiv och utgör ett interimistiskt alternativ till Visual Arkiv.
+Webbaserat verktyg för att upprätta, förvalta och fastställa **arkivförteckningar** enligt svensk arkivredovisningsstandard. Verktyget är avsett för Skånearkiv.
 
 Baserat på Migrationsverkets öppna källkod [IHPv](https://github.com/migrationsverket/IHPv), omarbetad och utökad för arkivredovisning.
 
